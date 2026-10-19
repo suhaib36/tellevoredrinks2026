@@ -23,6 +23,7 @@ export const ShopScreen: React.FC = () => {
     cartCount, 
     cartTotal, 
     setIsCartOpen,
+    setSelectedProduct,
     showToast 
   } = useApp();
 
@@ -208,7 +209,10 @@ export const ShopScreen: React.FC = () => {
               className="bg-white rounded-3xl p-3 border border-[#EAE4D7] shadow-soft-sm flex flex-col justify-between group hover:border-[#D6CEBF] transition-all"
             >
               {/* Image & Badges */}
-              <div className="relative rounded-2xl overflow-hidden aspect-square mb-2.5 bg-[#F6F3EB]">
+              <div 
+                onClick={() => setSelectedProduct(product)}
+                className="relative rounded-2xl overflow-hidden aspect-square mb-2.5 bg-[#F6F3EB] cursor-pointer"
+              >
                 <img
                   src={product.imageUrl}
                   alt={product.name}
@@ -243,7 +247,10 @@ export const ShopScreen: React.FC = () => {
 
                 {/* Favorite Heart Button */}
                 <button
-                  onClick={() => toggleFavorite(product.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(product.id);
+                  }}
                   aria-label="Save to favorites"
                   className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-[#21382A] hover:bg-white shadow-sm transition-transform active:scale-90"
                 >
@@ -256,12 +263,15 @@ export const ShopScreen: React.FC = () => {
               </div>
 
               {/* Subtitle / Category Notes */}
-              <div className="flex-1">
+              <div 
+                onClick={() => setSelectedProduct(product)}
+                className="flex-1 cursor-pointer"
+              >
                 <div className="text-[9px] font-bold tracking-wider text-[#988151] uppercase mb-0.5 truncate">
                   {product.notes || product.category}
                 </div>
 
-                <h3 className="font-editorial text-sm font-semibold text-[#14261B] leading-tight line-clamp-2">
+                <h3 className="font-editorial text-sm font-semibold text-[#14261B] leading-tight line-clamp-2 hover:text-[#285737] transition-colors">
                   {product.name}
                 </h3>
 

@@ -14,6 +14,7 @@ export interface Product {
   notes?: string;
   description: string;
   imageUrl: string;
+  gallery?: string[];
   isSaved?: boolean;
   stockStatus?: 'in-stock' | 'low-stock' | 'just-restocked' | 'out-of-stock';
   stockCount?: number;
@@ -21,6 +22,34 @@ export interface Product {
   autoRefillOptions?: string[];
   currentAutoRefill?: string;
   stockNotify?: boolean;
+  harvestLocation?: string;
+  flavorProfile?: {
+    bitterness: number;
+    sweetness: number;
+    aromatics: number;
+    effervescence: number;
+  };
+  ingredients?: string[];
+  nutrition?: {
+    calories: string;
+    sugar: string;
+    abv: string;
+    volume: string;
+  };
+  servingRitual?: string;
+  packOptions?: {
+    label: string;
+    count: number;
+    price: number;
+    savings?: string;
+  }[];
+  reviews?: {
+    author: string;
+    location: string;
+    rating: number;
+    text: string;
+    date: string;
+  }[];
 }
 
 export interface CartItem {

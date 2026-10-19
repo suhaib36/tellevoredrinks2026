@@ -23,6 +23,7 @@ export const FavoritesScreen: React.FC = () => {
     favorites, 
     toggleFavorite, 
     addToCart, 
+    setSelectedProduct,
     showToast, 
     triggerConfetti 
   } = useApp();
@@ -159,10 +160,16 @@ export const FavoritesScreen: React.FC = () => {
           >
             {/* Top row: Image & Title */}
             <div className="flex gap-3 items-start">
-              <div className="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-[#F6F3EB]">
+              <div 
+                onClick={() => setSelectedProduct(item)}
+                className="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-[#F6F3EB] cursor-pointer"
+              >
                 <img
                   src={item.imageUrl}
                   alt={item.name}
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80";
+                  }}
                   className="w-full h-full object-cover"
                 />
                 <span className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold rounded">
@@ -172,7 +179,10 @@ export const FavoritesScreen: React.FC = () => {
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between">
-                  <h4 className="font-editorial text-base font-semibold text-[#162E1F] leading-tight truncate">
+                  <h4 
+                    onClick={() => setSelectedProduct(item)}
+                    className="font-editorial text-base font-semibold text-[#162E1F] leading-tight truncate cursor-pointer hover:text-[#255435] transition-colors"
+                  >
                     {item.name}
                   </h4>
                   <button

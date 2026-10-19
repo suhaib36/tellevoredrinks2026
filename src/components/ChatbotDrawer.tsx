@@ -33,6 +33,7 @@ export const ChatbotDrawer: React.FC = () => {
     addToCart, 
     user, 
     setActiveTab, 
+    setSelectedProduct,
     showToast 
   } = useApp();
 
@@ -223,18 +224,29 @@ export const ChatbotDrawer: React.FC = () => {
                           key={prod.id}
                           className="bg-[#FAF7F0] rounded-xl p-2.5 border border-[#E8DFCF] flex items-center justify-between gap-2.5"
                         >
-                          <img
-                            src={prod.imageUrl}
-                            alt={prod.name}
-                            className="w-11 h-11 rounded-lg object-cover border border-[#E6DDCD] shrink-0"
-                          />
-                          <div className="min-w-0 flex-1">
-                            <h5 className="font-editorial text-xs font-bold text-[#14261B] truncate">
-                              {prod.name}
-                            </h5>
-                            <span className="text-[10px] text-[#78887C] block truncate">
-                              {prod.size} • €{prod.price.toFixed(2)}
-                            </span>
+                          <div
+                            onClick={() => {
+                              setIsChatbotOpen(false);
+                              setSelectedProduct(prod);
+                            }}
+                            className="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer"
+                          >
+                            <img
+                              src={prod.imageUrl}
+                              alt={prod.name}
+                              onError={(e) => {
+                                e.currentTarget.src = "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80";
+                              }}
+                              className="w-11 h-11 rounded-lg object-cover border border-[#E6DDCD] shrink-0"
+                            />
+                            <div className="min-w-0 flex-1">
+                              <h5 className="font-editorial text-xs font-bold text-[#14261B] truncate hover:text-[#285737] transition-colors">
+                                {prod.name}
+                              </h5>
+                              <span className="text-[10px] text-[#78887C] block truncate">
+                                {prod.size} • €{prod.price.toFixed(2)}
+                              </span>
+                            </div>
                           </div>
                           <button
                             onClick={() => addToCart(prod)}

@@ -26,6 +26,7 @@ export const HomeScreen: React.FC = () => {
     toggleFavorite, 
     setActiveTab, 
     setIsQuizOpen,
+    setSelectedProduct,
     showToast 
   } = useApp();
 
@@ -178,7 +179,18 @@ export const HomeScreen: React.FC = () => {
                 <span className="text-[11px] text-[#A3BEAC] ml-1">{HERO_FEATURED.unit}</span>
               </div>
               <button
-                onClick={() => setIsExploreOpen(true)}
+                onClick={() => setSelectedProduct({
+                  id: 'lingonberry-birch-sparkler',
+                  name: HERO_FEATURED.title,
+                  category: 'WILD HARVEST SERIES',
+                  badge: HERO_FEATURED.badge,
+                  price: HERO_FEATURED.price,
+                  size: '4-pack',
+                  description: HERO_FEATURED.description,
+                  imageUrl: HERO_FEATURED.imageUrl,
+                  notes: 'Wild Lingonberry • Birch Bark Tannin • Effervescent Spring Water',
+                  harvestLocation: 'Inari Wilderness, Lapland • 68°54′N',
+                })}
                 className="px-4 py-1.5 bg-white text-[#12281C] rounded-full text-xs font-bold flex items-center gap-1 shadow-sm hover:bg-[#F7F4EB] transition-colors active:scale-95"
               >
                 <span>Explore Blend</span>
@@ -345,7 +357,10 @@ export const HomeScreen: React.FC = () => {
                 className="bg-white rounded-3xl p-3 border border-[#EAE4D7] shadow-soft-sm flex flex-col justify-between group hover:border-[#D6CEBF] transition-all"
               >
                 {/* Product Image & Top Badges */}
-                <div className="relative rounded-2xl overflow-hidden aspect-square mb-2.5 bg-[#F6F3EB]">
+                <div 
+                  onClick={() => setSelectedProduct(product)}
+                  className="relative rounded-2xl overflow-hidden aspect-square mb-2.5 bg-[#F6F3EB] cursor-pointer"
+                >
                   <img
                     src={product.imageUrl}
                     alt={product.name}
@@ -372,7 +387,10 @@ export const HomeScreen: React.FC = () => {
                   )}
 
                   <button
-                    onClick={() => toggleFavorite(product.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(product.id);
+                    }}
                     aria-label="Save to favorites"
                     className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-[#21382A] hover:bg-white shadow-sm transition-transform active:scale-90"
                   >
@@ -386,7 +404,10 @@ export const HomeScreen: React.FC = () => {
 
                 {/* Rating */}
                 {product.rating && (
-                  <div className="flex items-center gap-1 text-[11px] text-[#55695C] mb-1">
+                  <div 
+                    onClick={() => setSelectedProduct(product)}
+                    className="flex items-center gap-1 text-[11px] text-[#55695C] mb-1 cursor-pointer"
+                  >
                     <Star className="w-3 h-3 fill-[#E5A953] text-[#E5A953]" />
                     <span className="font-semibold text-[#183122]">{product.rating}</span>
                     <span className="text-[#8B9B90]">({product.reviewsCount})</span>
@@ -394,8 +415,11 @@ export const HomeScreen: React.FC = () => {
                 )}
 
                 {/* Title & Category */}
-                <div className="flex-1">
-                  <h3 className="font-editorial text-sm font-semibold text-[#14261B] leading-tight line-clamp-2">
+                <div 
+                  onClick={() => setSelectedProduct(product)}
+                  className="flex-1 cursor-pointer"
+                >
+                  <h3 className="font-editorial text-sm font-semibold text-[#14261B] leading-tight line-clamp-2 hover:text-[#2A5237] transition-colors">
                     {product.name}
                   </h3>
                   <span className="text-[10px] tracking-wider text-[#8A7142] uppercase font-bold mt-0.5 block">

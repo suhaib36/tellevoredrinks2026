@@ -38,6 +38,8 @@ interface AppContextType {
   setIsChatbotOpen: (open: boolean) => void;
   selectedOrderForTracking: OrderItem | null;
   setSelectedOrderForTracking: (order: OrderItem | null) => void;
+  selectedProduct: Product | null;
+  setSelectedProduct: (product: Product | null) => void;
   toasts: Toast[];
   showToast: (message: string, type?: 'success' | 'info' | 'reward') => void;
   dismissToast: (id: string) => void;
@@ -68,6 +70,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isMembershipCardOpen, setIsMembershipCardOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [selectedOrderForTracking, setSelectedOrderForTracking] = useState<OrderItem | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Toast feedback
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -206,6 +209,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsChatbotOpen,
         selectedOrderForTracking,
         setSelectedOrderForTracking,
+        selectedProduct,
+        setSelectedProduct,
         toasts,
         showToast,
         dismissToast,
