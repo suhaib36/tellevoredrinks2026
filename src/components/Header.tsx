@@ -1,13 +1,15 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Bell } from 'lucide-react';
+import { Bell, ShoppingBag } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const { 
     activeTab, 
     setActiveTab, 
     user, 
-    setIsNotificationsOpen 
+    setIsNotificationsOpen,
+    setIsCartOpen,
+    cartCount 
   } = useApp();
 
   const getSubTitle = () => {
@@ -54,13 +56,28 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Action Controls: Bell with yellow dot & Avatar */}
-        <div className="flex items-center gap-3">
+        {/* Action Controls: Add to Cart button, Bell with yellow dot & Avatar */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Add to Cart / Forest Box Button */}
+          <button
+            onClick={() => setIsCartOpen(true)}
+            aria-label="Open Forest Box Cart"
+            title="Open Forest Box Cart"
+            className="relative w-8 h-8 flex items-center justify-center text-[#1C3324] hover:text-[#2E4F39] active:scale-95 transition-all"
+          >
+            <ShoppingBag className="w-5 h-5 stroke-[2]" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#183324] text-[#E5A953] text-[9px] font-bold flex items-center justify-center leading-none shadow-xs border border-[#FBF9F5]">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
           {/* Notification Bell */}
           <button
             onClick={() => setIsNotificationsOpen(true)}
             aria-label="View notifications"
-            className="relative w-8 h-8 flex items-center justify-center text-[#1C3324] hover:text-[#2E4F39] transition-colors"
+            className="relative w-8 h-8 flex items-center justify-center text-[#1C3324] hover:text-[#2E4F39] active:scale-95 transition-all"
           >
             <Bell className="w-5 h-5 stroke-[2]" />
             <span className="absolute top-0.5 right-1 w-2.5 h-2.5 rounded-full bg-[#E5A953] ring-2 ring-[#FBF9F5]" />
@@ -70,7 +87,7 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setActiveTab('profile')}
             aria-label="Open profile"
-            className="w-8 h-8 rounded-full overflow-hidden shadow-xs hover:opacity-90 transition-opacity shrink-0"
+            className="w-8 h-8 rounded-full overflow-hidden shadow-xs hover:opacity-90 active:scale-95 transition-all shrink-0"
           >
             <img
               src={user.avatarUrl}

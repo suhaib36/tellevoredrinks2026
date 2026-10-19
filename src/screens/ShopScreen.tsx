@@ -212,6 +212,9 @@ export const ShopScreen: React.FC = () => {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80";
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
 

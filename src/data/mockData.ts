@@ -108,7 +108,7 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 88,
     notes: "Wild Spruce • Boreal Rosemary • Zero Sugar",
     description: "Crisp and exhilarating soda brewed with foraged spruce needles and wild rosemary sprigs. Crisp, dry, and zero refined sugar.",
-    imageUrl: "https://images.unsplash.com/photo-1584282479904-74898132717e?auto=format&fit=crop&w=600&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80",
     isSaved: false,
     stockStatus: "in-stock",
   },
@@ -280,7 +280,7 @@ export const REWARDS_CATALOG: RewardItem[] = [
     title: "Taiga Forager Canvas Tote",
     seedsCost: 250,
     description: "Heavyweight organic unbleached canvas tote with pine print.",
-    imageUrl: "https://images.unsplash.com/photo-1597484662317-9bd7bdda2907?auto=format&fit=crop&w=600&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80",
     category: "Gear",
   },
 ];
