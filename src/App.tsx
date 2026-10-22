@@ -9,6 +9,7 @@ import { MembershipCardModal } from './components/MembershipCardModal';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
 import { ChatbotDrawer } from './components/ChatbotDrawer';
 import { ProductDetailModal } from './components/ProductDetailModal';
+import { LanguageModal } from './components/LanguageModal';
 import { ToastContainer } from './components/ToastContainer';
 import { HomeScreen } from './screens/HomeScreen';
 import { ShopScreen } from './screens/ShopScreen';
@@ -86,6 +87,7 @@ const MainApp: React.FC = () => {
       <OrderTrackingModal />
       <ChatbotDrawer />
       <ProductDetailModal />
+      <LanguageModal />
       <ToastContainer />
     </div>
   );

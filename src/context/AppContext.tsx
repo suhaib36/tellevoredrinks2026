@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { TabType, Product, CartItem, UserProfile, RewardItem, OrderItem } from '../types';
+import { TabType, Product, CartItem, UserProfile, RewardItem, OrderItem, Language } from '../types';
 import { PRODUCTS, INITIAL_USER, INITIAL_CART, RECENT_ORDERS } from '../data/mockData';
+import { translations, Translations } from '../i18n/translations';
 import confetti from 'canvas-confetti';
 
 interface Toast {
@@ -10,6 +11,11 @@ interface Toast {
 }
 
 interface AppContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  isLanguageModalOpen: boolean;
+  setIsLanguageModalOpen: (open: boolean) => void;
+  t: Translations;
   activeTab: TabType;
   setActiveTab: (tab: TabType) => void;
   cart: CartItem[];
@@ -49,6 +55,32 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [language, setLanguageState] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem('tellervo_language');
+      if (saved === 'en' || saved === 'fi' || saved === 'es') {
+        return saved;
+      }
+    } catch {
+      // ignore
+    }
+    return 'en';
+  });
+  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    try {
+      localStorage.setItem('tellervo_language', lang);
+    } catch {
+      // ignore
+    }
+    const names = { en: 'English', fi: 'Suomi', es: 'Español' };
+    showToast(`Language switched to ${names[lang]}`, 'info');
+  };
+
+  const t = translations[language] || translations.en;
+
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [products] = useState<Product[]>(PRODUCTS);
   const [cart, setCart] = useState<CartItem[]>(INITIAL_CART);
@@ -181,6 +213,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return (
     <AppContext.Provider
       value={{
+        language,
+        setLanguage,
+        isLanguageModalOpen,
+        setIsLanguageModalOpen,
+        t,
         activeTab,
         setActiveTab,
         cart,

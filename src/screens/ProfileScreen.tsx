@@ -16,7 +16,8 @@ import {
   Package, 
   Truck, 
   Receipt,
-  X
+  X,
+  Globe
 } from 'lucide-react';
 
 export const ProfileScreen: React.FC = () => {
@@ -26,7 +27,10 @@ export const ProfileScreen: React.FC = () => {
     setSelectedOrderForTracking, 
     addToCart, 
     products, 
-    showToast 
+    showToast,
+    language,
+    setIsLanguageModalOpen,
+    t
   } = useApp();
 
   const [notifications, setNotifications] = useState(user.notifications);
@@ -279,10 +283,39 @@ export const ProfileScreen: React.FC = () => {
       {/* Settings & Preferences Section */}
       <div>
         <h3 className="font-editorial text-xl font-medium text-[#14261B] mb-2">
-          Settings & Preferences
+          {t.profile.settingsPreferences || 'Settings & Preferences'}
         </h3>
 
         <div className="bg-white rounded-3xl border border-[#E8E2D5] shadow-soft-sm divide-y divide-[#F0ECE1] overflow-hidden">
+          {/* Language Selector */}
+          <div 
+            onClick={() => setIsLanguageModalOpen(true)}
+            className="p-4 flex items-center justify-between hover:bg-[#FAF8F3] cursor-pointer transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#E8F3EB] flex items-center justify-center text-[#183324]">
+                <Globe className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="text-xs font-bold text-[#183122] flex items-center gap-2">
+                  <span>{t.profile.languageOption || 'Language'}</span>
+                  <span className="text-[10px] font-mono font-bold uppercase bg-[#183324] text-[#E5A953] px-1.5 py-0.5 rounded">
+                    {language}
+                  </span>
+                </div>
+                <div className="text-[11px] text-[#718274]">
+                  {language === 'fi' ? '🇫🇮 Suomi' : language === 'es' ? '🇪🇸 Español' : '🇬🇧 English'} • Tap to switch
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-[#1F492E]">
+                {language === 'fi' ? 'Muuta' : language === 'es' ? 'Cambiar' : 'Change'}
+              </span>
+              <ChevronRight className="w-4 h-4 text-[#8C9C90]" />
+            </div>
+          </div>
+
           {/* Delivery Addresses */}
           <div 
             onClick={() => showToast('Default delivery address: Mannerheimintie 14 B, Helsinki')}
@@ -293,7 +326,7 @@ export const ProfileScreen: React.FC = () => {
                 <MapPin className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#183122]">Delivery Addresses</div>
+                <div className="text-xs font-bold text-[#183122]">{t.profile.deliveryAddresses}</div>
                 <div className="text-[11px] text-[#718274]">{user.address}</div>
               </div>
             </div>
@@ -310,7 +343,7 @@ export const ProfileScreen: React.FC = () => {
                 <CreditCard className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#183122]">Payment Methods</div>
+                <div className="text-xs font-bold text-[#183122]">{t.profile.paymentMethods}</div>
                 <div className="text-[11px] text-[#718274]">{user.paymentMethod}</div>
               </div>
             </div>
@@ -327,7 +360,7 @@ export const ProfileScreen: React.FC = () => {
                 <Sliders className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#183122]">Flavor & Dietary</div>
+                <div className="text-xs font-bold text-[#183122]">{t.profile.flavorDietary}</div>
                 <div className="text-[11px] text-[#718274]">{user.dietaryPreferences}</div>
               </div>
             </div>
@@ -341,14 +374,14 @@ export const ProfileScreen: React.FC = () => {
                 <Bell className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#183122]">Notification Signals</div>
-                <div className="text-[11px] text-[#718274]">Real-time alerts via push & SMS</div>
+                <div className="text-xs font-bold text-[#183122]">{t.profile.notificationSignals}</div>
+                <div className="text-[11px] text-[#718274]">{t.profile.realTimeAlerts}</div>
               </div>
             </div>
 
             <div className="space-y-2.5 pt-1 pl-12">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#2A3E31]">Seasonal Drops</span>
+                <span className="text-xs text-[#2A3E31]">{t.profile.seasonalDrops}</span>
                 <button
                   onClick={() => toggleNotification('seasonalDrops')}
                   className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
@@ -364,7 +397,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#2A3E31]">Restock Alerts</span>
+                <span className="text-xs text-[#2A3E31]">{t.profile.restockAlerts}</span>
                 <button
                   onClick={() => toggleNotification('restockAlerts')}
                   className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
@@ -380,7 +413,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#2A3E31]">Order Updates (SMS)</span>
+                <span className="text-xs text-[#2A3E31]">{t.profile.orderUpdates}</span>
                 <button
                   onClick={() => toggleNotification('orderUpdates')}
                   className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
@@ -407,7 +440,7 @@ export const ProfileScreen: React.FC = () => {
                 <Trees className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-xs font-bold text-[#183122]">Nordic Forest Impact</div>
+                <div className="text-xs font-bold text-[#183122]">{t.profile.nordicForestImpact}</div>
                 <div className="text-[11px] text-[#718274]">18 trees planted through your orders this year</div>
               </div>
             </div>
@@ -423,7 +456,7 @@ export const ProfileScreen: React.FC = () => {
               <div className="w-9 h-9 rounded-xl bg-[#F5F2EB] flex items-center justify-center text-[#2A3F31]">
                 <HelpCircle className="w-4 h-4" />
               </div>
-              <div className="text-xs font-bold text-[#183122]">Help & Forest Concierge</div>
+              <div className="text-xs font-bold text-[#183122]">{t.profile.helpConcierge}</div>
             </div>
             <ChevronRight className="w-4 h-4 text-[#8C9C90]" />
           </div>
@@ -437,7 +470,7 @@ export const ProfileScreen: React.FC = () => {
               <div className="w-9 h-9 rounded-xl bg-[#F5F2EB] flex items-center justify-center text-[#2A3F31]">
                 <FileText className="w-4 h-4" />
               </div>
-              <div className="text-xs font-bold text-[#183122]">Terms & Nordic Botanical Policy</div>
+              <div className="text-xs font-bold text-[#183122]">{t.profile.termsPolicy}</div>
             </div>
             <ChevronRight className="w-4 h-4 text-[#8C9C90]" />
           </div>

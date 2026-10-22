@@ -9,23 +9,38 @@ export const Header: React.FC = () => {
     user, 
     setIsNotificationsOpen,
     setIsCartOpen,
+    setIsLanguageModalOpen,
+    language,
+    t,
     cartCount 
   } = useApp();
 
   const getSubTitle = () => {
     switch (activeTab) {
       case 'home':
-        return 'HOME';
+        return t.header.home;
       case 'shop':
-        return 'SHOP';
+        return t.header.shop;
       case 'rewards':
-        return 'REWARDS';
+        return t.header.rewards;
       case 'favorites':
-        return 'FAVORITES';
+        return t.header.favorites;
       case 'profile':
-        return 'PROFILE';
+        return t.header.profile;
       default:
-        return 'HOME';
+        return t.header.home;
+    }
+  };
+
+  const getFlag = () => {
+    switch (language) {
+      case 'fi':
+        return '🇫🇮';
+      case 'es':
+        return '🇪🇸';
+      case 'en':
+      default:
+        return '🇬🇧';
     }
   };
 
@@ -56,8 +71,19 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Action Controls: Add to Cart button, Bell with yellow dot & Avatar */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Action Controls: Language Pill, Cart, Bell & Avatar */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Language Selector Pill */}
+          <button
+            onClick={() => setIsLanguageModalOpen(true)}
+            aria-label="Switch language"
+            title={`${t.header.switchLanguage} (${language.toUpperCase()})`}
+            className="flex items-center gap-1 px-2 py-1 rounded-full bg-[#EAE5D9]/80 hover:bg-[#EAE5D9] text-[#183324] text-xs font-semibold tracking-wider transition-all border border-[#183324]/10 active:scale-95 shadow-xs"
+          >
+            <span className="text-xs leading-none">{getFlag()}</span>
+            <span className="uppercase text-[10px] font-mono font-bold text-[#183324]">{language}</span>
+          </button>
+
           {/* Add to Cart / Forest Box Button */}
           <button
             onClick={() => setIsCartOpen(true)}

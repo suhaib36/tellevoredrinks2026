@@ -27,7 +27,8 @@ export const HomeScreen: React.FC = () => {
     setActiveTab, 
     setIsQuizOpen,
     setSelectedProduct,
-    showToast 
+    showToast,
+    t
   } = useApp();
 
   const [activeCategory, setActiveCategory] = useState<'all' | 'adaptogenic' | 'spritz'>('all');
@@ -46,20 +47,20 @@ export const HomeScreen: React.FC = () => {
       {/* Location, Weather & Greeting */}
       <div>
         <div className="flex items-center justify-between text-[11px] font-semibold tracking-wider text-[#7A8C7D] uppercase mb-1">
-          <span>Helsinki Forest Lab</span>
+          <span>{t.home.location}</span>
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80 border border-[#EBE5D8] text-[#34483B] normal-case text-xs shadow-soft-sm">
             <CloudSun className="w-3.5 h-3.5 text-[#D49B4E]" />
-            <span>14°C Crisp</span>
+            <span>{t.home.weather}</span>
           </div>
         </div>
 
         <h1 className="font-editorial text-[34px] leading-tight font-medium text-[#14261B] tracking-tight">
-          Moi, Freja
+          {t.home.greeting}
         </h1>
 
         <p className="text-xs text-[#5D6F61] flex items-center gap-1.5 mt-1 font-normal">
           <span className="w-1.5 h-1.5 rounded-full bg-[#96673A]" />
-          <span>Clear morning skies • Prime hour for a chilled Spruce Tonic</span>
+          <span>{t.home.greetingSub}</span>
         </p>
       </div>
 
@@ -69,7 +70,7 @@ export const HomeScreen: React.FC = () => {
           <Search className="w-4 h-4 text-[#8C9C8F] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search pine, cloudberry, birch infu..."
+            placeholder={t.home.searchPlaceholder}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#E5DFD0] rounded-2xl text-xs text-[#1C3122] placeholder-[#8C9C8F] shadow-soft-sm focus:outline-none focus:ring-1 focus:ring-[#183324]"
@@ -96,9 +97,9 @@ export const HomeScreen: React.FC = () => {
             </div>
             <div>
               <div className="text-[10px] font-bold tracking-widest text-[#E5A953] uppercase">
-                TELLERVO FOREST CLUB
+                {t.home.clubTitle}
               </div>
-              <div className="text-xs font-semibold text-white">Pine Forager Tier</div>
+              <div className="text-xs font-semibold text-white">{t.home.clubTier}</div>
             </div>
           </div>
           <div className="text-right">
@@ -111,7 +112,7 @@ export const HomeScreen: React.FC = () => {
         {/* Progress bar */}
         <div className="mb-3 relative z-10">
           <div className="flex items-center justify-between text-[11px] text-[#A2BEAA] mb-1.5">
-            <span>80 pts to free Cloudberry 4-Pack</span>
+            <span>{t.home.ptsToReward}</span>
             <span className="font-bold text-[#E5A953]">84%</span>
           </div>
           <div className="w-full h-1.5 bg-[#254231] rounded-full overflow-hidden">
@@ -121,12 +122,12 @@ export const HomeScreen: React.FC = () => {
 
         {/* Bottom row */}
         <div className="flex items-center justify-between pt-1 text-xs relative z-10">
-          <span className="text-[#A2BEAA] text-[11px]">1pt earned per €1 spent</span>
+          <span className="text-[#A2BEAA] text-[11px]">{t.home.ptsRate}</span>
           <button
             onClick={() => setActiveTab('rewards')}
             className="px-3.5 py-1.5 bg-[#E5A953] text-[#12281C] rounded-full text-[11px] font-bold flex items-center gap-1 hover:bg-[#F2BA69] transition-colors shadow-sm active:scale-95"
           >
-            <span>Redeem Perks</span>
+            <span>{t.home.redeemPerks}</span>
             <ArrowRight className="w-3 h-3" />
           </button>
         </div>
@@ -193,7 +194,7 @@ export const HomeScreen: React.FC = () => {
                 })}
                 className="px-4 py-1.5 bg-white text-[#12281C] rounded-full text-xs font-bold flex items-center gap-1 shadow-sm hover:bg-[#F7F4EB] transition-colors active:scale-95"
               >
-                <span>Explore Blend</span>
+                <span>{t.home.exploreBlend}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -212,12 +213,12 @@ export const HomeScreen: React.FC = () => {
           </div>
           <div>
             <div className="text-[11px] font-bold text-[#1B3624] flex items-center gap-1.5">
-              <span>MEMBER ADVANTAGE</span>
+              <span>{t.home.memberAdvantage}</span>
               <span className="w-1 h-1 rounded-full bg-[#2A543A]" />
-              <span className="text-[#C78229]">Weekend 2x Seeds</span>
+              <span className="text-[#C78229]">{t.home.weekendSeeds}</span>
             </div>
             <div className="text-[11px] text-[#556F5E]">
-              Complimentary courier delivery on all orders this week
+              {t.home.deliveryPerk}
             </div>
           </div>
         </div>
@@ -229,13 +230,13 @@ export const HomeScreen: React.FC = () => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-1.5">
             <RotateCcw className="w-4 h-4 text-[#162D1F]" />
-            <h2 className="font-editorial text-lg font-medium text-[#14261B]">Order Again</h2>
+            <h2 className="font-editorial text-lg font-medium text-[#14261B]">{t.home.orderAgain}</h2>
           </div>
           <button
             onClick={() => setActiveTab('profile')}
             className="text-xs font-semibold text-[#8C7443] hover:underline"
           >
-            Order History
+            {t.home.orderHistory}
           </button>
         </div>
 
@@ -251,7 +252,7 @@ export const HomeScreen: React.FC = () => {
               />
               <div className="min-w-0 flex-1">
                 <span className="text-[9px] font-bold tracking-wider text-[#988151] uppercase block">
-                  LAST ORDERED 5D AGO
+                  {t.home.lastOrdered5d}
                 </span>
                 <h4 className="font-editorial text-sm font-semibold text-[#183122] truncate">
                   Arctic Juniper Tonic
@@ -266,7 +267,7 @@ export const HomeScreen: React.FC = () => {
               }}
               className="w-full py-2 bg-[#183324] text-[#FAF8F3] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 hover:bg-[#234330] transition-colors"
             >
-              <span>📦 1-Tap Reorder</span>
+              <span>{t.home.oneTapReorder}</span>
             </button>
           </div>
 
@@ -280,7 +281,7 @@ export const HomeScreen: React.FC = () => {
               />
               <div className="min-w-0 flex-1">
                 <span className="text-[9px] font-bold tracking-wider text-[#988151] uppercase block">
-                  LAST ORDERED 18D AGO
+                  {t.home.lastOrdered18d}
                 </span>
                 <h4 className="font-editorial text-sm font-semibold text-[#183122] truncate">
                   Cloudberry Golden
@@ -295,7 +296,7 @@ export const HomeScreen: React.FC = () => {
               }}
               className="w-full py-2 bg-[#183324] text-[#FAF8F3] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 hover:bg-[#234330] transition-colors"
             >
-              <span>📦 1-Tap Reorder</span>
+              <span>{t.home.oneTapReorder}</span>
             </button>
           </div>
         </div>
@@ -305,12 +306,12 @@ export const HomeScreen: React.FC = () => {
       <div>
         <div className="flex items-baseline justify-between mb-1">
           <h2 className="font-editorial text-xl font-medium text-[#14261B]">
-            Discover Botanical Range
+            {t.home.discoverRange}
           </h2>
-          <span className="text-xs font-medium text-[#7A8C7F]">18 Craft Brews</span>
+          <span className="text-xs font-medium text-[#7A8C7F]">{t.home.craftBrews}</span>
         </div>
         <p className="text-xs text-[#637568] mb-3">
-          Small-batch decoctions slow-steeped with subarctic botanicals.
+          {t.home.discoverSub}
         </p>
 
         {/* Category Filter Pills */}
@@ -323,7 +324,7 @@ export const HomeScreen: React.FC = () => {
                 : 'bg-white border border-[#E5DFD2] text-[#4F6355] hover:bg-[#F7F4EB]'
             }`}
           >
-            All Blends
+            {t.home.allBlends}
           </button>
           <button
             onClick={() => setActiveCategory('adaptogenic')}
@@ -333,7 +334,7 @@ export const HomeScreen: React.FC = () => {
                 : 'bg-white border border-[#E5DFD2] text-[#4F6355] hover:bg-[#F7F4EB]'
             }`}
           >
-            Adaptogenic Tonics
+            {t.home.adaptogenicTonics}
           </button>
           <button
             onClick={() => setActiveCategory('spritz')}
@@ -343,7 +344,7 @@ export const HomeScreen: React.FC = () => {
                 : 'bg-white border border-[#E5DFD2] text-[#4F6355] hover:bg-[#F7F4EB]'
             }`}
           >
-            Wild Berry Spritz
+            {t.home.wildBerrySpritz}
           </button>
         </div>
 
@@ -460,19 +461,19 @@ export const HomeScreen: React.FC = () => {
       <div className="bg-[#FAF7EF] rounded-3xl p-5 border border-[#E9E1CF] shadow-soft-sm relative overflow-hidden flex items-center justify-between">
         <div className="max-w-[65%]">
           <span className="text-[10px] tracking-widest text-[#937548] uppercase font-bold block mb-1">
-            SENSORY LAB
+            {t.home.sensoryLab}
           </span>
           <h3 className="font-editorial text-xl font-medium text-[#14261B] leading-tight mb-1.5">
-            Find Your Forest Profile
+            {t.home.findProfile}
           </h3>
           <p className="text-xs text-[#637568] mb-3">
-            Take the 2-minute palette quiz to discover tailor-made wild botanicals.
+            {t.home.findProfileSub}
           </p>
           <button
             onClick={() => setIsQuizOpen(true)}
             className="px-4 py-2 bg-white border border-[#D8CEBA] text-[#183324] rounded-full text-xs font-bold flex items-center gap-1.5 hover:bg-[#F3EFE4] transition-colors shadow-sm active:scale-95"
           >
-            <span>Start Pairing</span>
+            <span>{t.home.startPairing}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -513,17 +514,17 @@ export const HomeScreen: React.FC = () => {
           <div className="text-[11px] text-[#718575] italic">Luonnon Rohdot pullossa</div>
         </div>
         <blockquote className="font-editorial italic text-base text-[#14261B] max-w-xs mx-auto">
-          &ldquo;Metsä vastaa niin kuin sinne huudetaan.&rdquo;
+          {t.home.quote}
         </blockquote>
         <p className="text-xs text-[#6A7C6E] max-w-xs mx-auto leading-relaxed">
-          Sustainably wild-foraged in Scandinavian boreal forests, 100% natural infusions, zero refined sugars, pure Nordic spring waters.
+          {t.home.quoteSub}
         </p>
         <div className="flex items-center justify-center gap-2 text-[10px] font-bold tracking-wider text-[#8A7246] pt-1">
-          <span>CERTIFIED ORGANIC</span>
+          <span>{t.home.certifiedOrganic}</span>
           <span>•</span>
-          <span>CARBON NEGATIVE</span>
+          <span>{t.home.carbonNegative}</span>
           <span>•</span>
-          <span>ARCTIC FLORA</span>
+          <span>{t.home.arcticFlora}</span>
         </div>
       </div>
 

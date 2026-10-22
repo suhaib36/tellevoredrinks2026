@@ -34,7 +34,9 @@ export const ChatbotDrawer: React.FC = () => {
     user, 
     setActiveTab, 
     setSelectedProduct,
-    showToast 
+    showToast,
+    language,
+    t
   } = useApp();
 
   const [input, setInput] = useState('');
@@ -44,18 +46,33 @@ export const ChatbotDrawer: React.FC = () => {
   const initialGreeting: ChatMessage = {
     id: 'msg-0',
     sender: 'bot',
-    text: `Moi, ${user.name.split(' ')[0]}! 🌲 Welcome to Tellervo. I am your Forest Sommelier, steeped in ancient Finnish botanical traditions and subarctic wild harvests.\n\nWhether you desire an adaptogenic tonic for daytime clarity, a zero-proof aperitif for dusk, or pairing notes for your favorite botanicals, I am here to guide your palate. What are you looking to experience today?`,
+    text: t.chatbot.greeting,
     time: 'Just now',
   };
 
   const [messages, setMessages] = useState<ChatMessage[]>([initialGreeting]);
 
+  // Update initial greeting when language changes if chat hasn't started yet
+  useEffect(() => {
+    setMessages(prev => {
+      if (prev.length <= 1) {
+        return [{
+          id: 'msg-0',
+          sender: 'bot',
+          text: t.chatbot.greeting,
+          time: 'Just now',
+        }];
+      }
+      return prev;
+    });
+  }, [language, t.chatbot.greeting]);
+
   const quickPrompts = [
-    { label: '🌿 Relaxing evening tonic', query: 'I want something relaxing for the evening without alcohol' },
-    { label: '⚡ Energy & mental clarity', query: 'What is the best drink for focus and energy?' },
-    { label: '🫐 Tell me about Cloudberries', query: 'Tell me about the Cloudberry Golden Sparkler' },
-    { label: '🍸 Non-alcoholic cocktails', query: 'Recommend a zero-proof spirit for cocktails' },
-    { label: '📦 Track my order', query: 'Where is my order #TL-89421 right now?' },
+    { label: t.chatbot.quickEvening, query: language === 'fi' ? 'Haluan jotain rentouttavaa iltaan ilman alkoholia' : language === 'es' ? 'Quiero algo relajante para la noche sin alcohol' : 'I want something relaxing for the evening without alcohol' },
+    { label: t.chatbot.quickFocus, query: language === 'fi' ? 'Mikä on paras juoma keskittymiseen ja energiaan?' : language === 'es' ? '¿Cuál es la mejor bebida para concentración y energía?' : 'What is the best drink for focus and energy?' },
+    { label: t.chatbot.quickCloudberry, query: language === 'fi' ? 'Kerro minulle lakka-juomasta' : language === 'es' ? 'Cuéntame sobre la mora ártica' : 'Tell me about the Cloudberry Golden Sparkler' },
+    { label: t.chatbot.quickSpirits, query: language === 'fi' ? 'Suosittele alkoholitonta tislettä cocktaileihin' : language === 'es' ? 'Recomienda un destilado sin alcohol para cócteles' : 'Recommend a zero-proof spirit for cocktails' },
+    { label: t.chatbot.quickTrack, query: language === 'fi' ? 'Missä tilaukseni #TL-89421 on juuri nyt?' : language === 'es' ? '¿Dónde está mi pedido #TL-89421 en este momento?' : 'Where is my order #TL-89421 right now?' },
   ];
 
   const scrollToBottom = () => {
@@ -92,29 +109,72 @@ export const ChatbotDrawer: React.FC = () => {
       let recommended: Product[] = [];
       let action: { text: string; tab: string } | undefined = undefined;
 
-      if (q.includes('evening') || q.includes('relax') || q.includes('sleep') || q.includes('calm') || q.includes('night') || q.includes('unwind')) {
-        botResponse = `For winding down in the evening, I highly recommend our **Smoked Lingon Spritz** and the copper-distilled **Taiga Botanical Reserve**.\n\nThe wild lingonberries are gently smoked over sweet alder wood coals, releasing soothing natural tannins that settle the nervous system without alcohol. Pour over crystal ice with a sprig of fresh rosemary.`;
+      if (q.includes('evening') || q.includes('relax') || q.includes('sleep') || q.includes('calm') || q.includes('night') || q.includes('ilta') || q.includes('rento') || q.includes('noche') || q.includes('relaj')) {
+        if (language === 'fi') {
+          botResponse = `Illan rauhoittumiseen suosittelen lämpimästi **Savustettua Puolukkasprtiziä** ja kuparipannussa tislattua **Taiga Botanical Reserve** -uutetta.\n\nVillit puolukat savustetaan hellästi leppähiilillä, vapauttaen rauhoittavia luontaisia tanniineja ilman alkoholia. Tarjoile kristallijäillä tuoreen rosmariininoksan kera.`;
+        } else if (language === 'es') {
+          botResponse = `Para relajarte por la noche, te recomiendo especialmente nuestro **Spritz de Arándano Rojo Ahumado** y la reserva botánica de cobre **Taiga Botanical Reserve**.\n\nLos arándanos rojos silvestres se ahuman suavemente sobre brasas de aliso, liberando taninos naturales relajantes sin alcohol. Sírvelo sobre hielo cristalino con una ramita de romero fresco.`;
+        } else {
+          botResponse = `For winding down in the evening, I highly recommend our **Smoked Lingon Spritz** and the copper-distilled **Taiga Botanical Reserve**.\n\nThe wild lingonberries are gently smoked over sweet alder wood coals, releasing soothing natural tannins that settle the nervous system without alcohol. Pour over crystal ice with a sprig of fresh rosemary.`;
+        }
         recommended = products.filter(p => p.id === 'smoked-lingon-spritz' || p.id === 'taiga-botanical-reserve');
-      } else if (q.includes('focus') || q.includes('energy') || q.includes('morning') || q.includes('study') || q.includes('work') || q.includes('clarity')) {
-        botResponse = `For morning invigoration and sharp focus, our cold-pressed **Spruce Needle & Lime Tonic** and the potent **Birch Chaga Immunity Elixir** are unmatched.\n\nYoung spring spruce tips contain high levels of refreshing pinene and natural Vitamin C, while Lapland chaga provides 2000mg of beta-glucans for sustained mental endurance.`;
+      } else if (q.includes('focus') || q.includes('energy') || q.includes('morning') || q.includes('study') || q.includes('work') || q.includes('aamu') || q.includes('keskitt') || q.includes('energ') || q.includes('mañana')) {
+        if (language === 'fi') {
+          botResponse = `Aamun virkistykseen ja terävään keskittymiseen kylmäpuristettu **Kuusenkerkkä & Lime Tonikki** ja **Koivu & Pakurikääpä Eliksiiri** ovat vertaansa vailla.\n\nNuoret keväiset kuusenkerkät sisältävät runsaasti raikastavaa pineeniä ja luonnon C-vitamiinia, kun taas Lapin pakurikääpä tukee mielen kestävyyttä.`;
+        } else if (language === 'es') {
+          botResponse = `Para revitalizarte por la mañana y enfocar tu mente, nuestro tónico de **Brotes de Abeto y Lima** y el potente **Elixir de Chaga y Abedul** son incomparables.\n\nLos tiernos brotes de abeto contienen altos niveles de pineno refrescante y vitamina C natural, mientras que el hongo chaga de Laponia brinda resistencia mental prolongada.`;
+        } else {
+          botResponse = `For morning invigoration and sharp focus, our cold-pressed **Spruce Needle & Lime Tonic** and the potent **Birch Chaga Immunity Elixir** are unmatched.\n\nYoung spring spruce tips contain high levels of refreshing pinene and natural Vitamin C, while Lapland chaga provides 2000mg of beta-glucans for sustained mental endurance.`;
+        }
         recommended = products.filter(p => p.id === 'spruce-needle-lime' || p.id === 'birch-chaga-immunity-elixir');
-      } else if (q.includes('cloudberry') || q.includes('hilla') || q.includes('golden')) {
-        botResponse = `The **Cloudberry Golden Sparkler** is celebrated as the "Gold of the Arctic". Hand-harvested across subarctic bogs near Inari, it pairs radiant amber berry tartness with natural spruce aromatics. It is 100% organic with zero refined sugars.`;
+      } else if (q.includes('cloudberry') || q.includes('hilla') || q.includes('lakka') || q.includes('mora')) {
+        if (language === 'fi') {
+          botResponse = `**Lakka Kulta-Säkenöivä** on ylistetty "Pohjolan Kultana". Se kerätään käsin Inarin lähistön subarktisilta soilta, ja siinä yhdistyvät hehkuva meripihkanmarjan hapokkuus ja luontainen kuusen aromikkuus. 100% luomua ilman valkoista sokeria.`;
+        } else if (language === 'es') {
+          botResponse = `La **Mora Ártica Dorada Chispeante** es conocida como el "Oro del Ártico". Cosechada a mano en ciénagas subárticas cerca de Inari, combina la radiante acidez de la baya con aromas naturales a abeto. 100% orgánica y sin azúcares refinados.`;
+        } else {
+          botResponse = `The **Cloudberry Golden Sparkler** is celebrated as the "Gold of the Arctic". Hand-harvested across subarctic bogs near Inari, it pairs radiant amber berry tartness with natural spruce aromatics. It is 100% organic with zero refined sugars.`;
+        }
         recommended = products.filter(p => p.id === 'cloudberry-golden-sparkler');
-      } else if (q.includes('spirit') || q.includes('cocktail') || q.includes('zero-proof') || q.includes('mocktail') || q.includes('alcohol') || q.includes('0.0')) {
-        botResponse = `Our crown jewel is the **Taiga Botanical Reserve (0.0% ABV)**. Copper-pot distilled with Arctic juniper, smoked peat moss, and mountain rowanberries, it delivers the complex weight and botanic bite of high-end gin or aquavit, with zero alcohol.\n\nAlso look into our **Wild Rowanberry Aperitif** for a bittersweet Negroni-style profile.`;
+      } else if (q.includes('spirit') || q.includes('cocktail') || q.includes('zero-proof') || q.includes('mocktail') || q.includes('alkoholiton') || q.includes('destilad')) {
+        if (language === 'fi') {
+          botResponse = `Kruununjalokivemme on **Taiga Botanical Reserve (0.0% ABV)**. Kuparipannuissa tislattu arktisesta katajasta, savustetusta turvesammaleesta ja villipihlajanmarjoista. Se tarjoaa huippuluokan ginin tai akvaviitin täyteläisyyden ja kasvisärmän, täysin ilman alkoholia.`;
+        } else if (language === 'es') {
+          botResponse = `Nuestra joya de la corona es **Taiga Botanical Reserve (0.0% ABV)**. Destilado en alambiques de cobre con enebro ártico, musgo de turba ahumado y bayas de serbal, ofrece el cuerpo y mordisco botánico de una ginebra de alta gama, con cero alcohol.`;
+        } else {
+          botResponse = `Our crown jewel is the **Taiga Botanical Reserve (0.0% ABV)**. Copper-pot distilled with Arctic juniper, smoked peat moss, and mountain rowanberries, it delivers the complex weight and botanic bite of high-end gin or aquavit, with zero alcohol.\n\nAlso look into our **Wild Rowanberry Aperitif** for a bittersweet Negroni-style profile.`;
+        }
         recommended = products.filter(p => p.id === 'taiga-botanical-reserve' || p.id === 'wild-rowanberry-aperitif');
-      } else if (q.includes('track') || q.includes('order') || q.includes('delivery') || q.includes('where is')) {
-        botResponse = `Your active order **#TL-89421** is currently on its delivery route with **Posti Eco** (Electric Van)! 🚚\n\nDriver Marko S. is approximately 4 stops away from **Mannerheimintie 14 B, Helsinki**. Expected delivery is between **14:35 and 15:15 today**.`;
-        action = { text: 'View Live Delivery Map', tab: 'profile' };
-      } else if (q.includes('seed') || q.includes('reward') || q.includes('point') || q.includes('patron')) {
-        botResponse = `You currently have **680 Seeds** in your Taiga Patron account! You need 320 more seeds to graduate to **Borealis Master** tier.\n\nYou have enough seeds right now to claim a **Free 4-Pack of Any Tonic (500 Seeds)** or **€10 Off Next Order (400 Seeds)**.`;
-        action = { text: 'Explore Rewards Catalog', tab: 'rewards' };
-      } else if (q.includes('chaga') || q.includes('mushroom') || q.includes('immunity')) {
-        botResponse = `Our **Birch Chaga Immunity Elixir** is wild-harvested exclusively from living silver birch trunks in Finland. It delivers 2000mg of dual-extracted beta-glucans and antioxidants per 60ml daily shot, providing gentle cellular defense.`;
-        recommended = products.filter(p => p.id === 'birch-chaga-immunity-elixir' || p.id === 'birch-chaga-myrrh');
+      } else if (q.includes('track') || q.includes('order') || q.includes('delivery') || q.includes('tilaus') || q.includes('pedido')) {
+        if (language === 'fi') {
+          botResponse = `Aktiivinen tilauksesi **#TL-89421** on parhaillaan matkalla **Posti Econ** sähköpakettiautolla! 🚚\n\nKuljettaja Marko S. on noin 4 pysähdyksen päässä osoitteesta **Mannerheimintie 14 B, Helsinki**. Arvioitu toimitusaika tänään klo **14:35 - 15:15**.`;
+          action = { text: 'Avaa Seurantakartta', tab: 'profile' };
+        } else if (language === 'es') {
+          botResponse = `Tu pedido activo **#TL-89421** está actualmente en ruta con **Posti Eco** (furgoneta eléctrica). 🚚\n\nEl repartidor Marko S. está a unas 4 paradas de **Mannerheimintie 14 B, Helsinki**. Entrega estimada hoy entre **14:35 y 15:15**.`;
+          action = { text: 'Ver Mapa de Entrega', tab: 'profile' };
+        } else {
+          botResponse = `Your active order **#TL-89421** is currently on its delivery route with **Posti Eco** (Electric Van)! 🚚\n\nDriver Marko S. is approximately 4 stops away from **Mannerheimintie 14 B, Helsinki**. Expected delivery is between **14:35 and 15:15 today**.`;
+          action = { text: 'View Live Delivery Map', tab: 'profile' };
+        }
+      } else if (q.includes('seed') || q.includes('reward') || q.includes('siemen') || q.includes('semilla')) {
+        if (language === 'fi') {
+          botResponse = `Sinulla on tällä hetkellä **680 Siementä** Taiga Patron -tililläsi! Tarvitset enää 320 siementä **Borealis Master** -tasolle.\n\nVoit lunastaa ilmaisen 4-pakkauksen tonikkia (500 siementä) tai 10 € alennuksen seuraavasta tilauksesta (400 siementä).`;
+          action = { text: 'Tutustu Palkintokauppaan', tab: 'rewards' };
+        } else if (language === 'es') {
+          botResponse = `¡Actualmente tienes **680 Semillas** en tu cuenta Taiga Patron! Necesitas 320 semillas más para ascender al nivel **Borealis Master**.\n\nPuedes canjear ahora un pack de 4 gratis (500 semillas) o 10 € de descuento (400 semillas).`;
+          action = { text: 'Explorar Catálogo de Recompensas', tab: 'rewards' };
+        } else {
+          botResponse = `You currently have **680 Seeds** in your Taiga Patron account! You need 320 more seeds to graduate to **Borealis Master** tier.\n\nYou have enough seeds right now to claim a **Free 4-Pack of Any Tonic (500 Seeds)** or **€10 Off Next Order (400 Seeds)**.`;
+          action = { text: 'Explore Rewards Catalog', tab: 'rewards' };
+        }
       } else {
-        botResponse = `A wonderful query! At Tellervo, every blend is crafted with 100% wild-foraged Scandinavian botanicals, pure Nordic spring waters, and zero refined sugars.\n\nHere are two of our most loved seasonal cellar selections crafted for your Taiga Patron profile:`;
+        if (language === 'fi') {
+          botResponse = `Loistava kysymys! Tellervolla jokainen juoma valmistetaan 100% villisti kerätyistä pohjoismaisista kasveista, puhtaasta lähdevedestä ja ilman lisättyä sokeria.\n\nTässä on kaksi suosituinta kausivalintaamme:`;
+        } else if (language === 'es') {
+          botResponse = `¡Una maravillosa consulta! En Tellervo, cada mezcla está elaborada con botánicos 100% recolectados en bosques boreales escandinavos, aguas puras de manantial y sin azúcares refinados.\n\nAquí tienes dos de nuestras selecciones favoritas:`;
+        } else {
+          botResponse = `A wonderful query! At Tellervo, every blend is crafted with 100% wild-foraged Scandinavian botanicals, pure Nordic spring waters, and zero refined sugars.\n\nHere are two of our most loved seasonal cellar selections crafted for your Taiga Patron profile:`;
+        }
         recommended = products.slice(0, 2);
       }
 
@@ -161,12 +221,12 @@ export const ChatbotDrawer: React.FC = () => {
             <div>
               <div className="flex items-center gap-1.5">
                 <h3 className="font-editorial text-lg font-semibold text-[#14261B] leading-tight">
-                  Forest Sommelier
+                  {t.chatbot.title}
                 </h3>
                 <span className="w-2 h-2 rounded-full bg-[#277E46] animate-pulse" />
               </div>
               <p className="text-[10px] text-[#86754D] font-bold tracking-wider uppercase">
-                Luonnon Rohdot • Botanical AI
+                {t.chatbot.subtitle}
               </p>
             </div>
           </div>
@@ -323,7 +383,7 @@ export const ChatbotDrawer: React.FC = () => {
           >
             <input
               type="text"
-              placeholder="Ask for recommendations, ingredients..."
+              placeholder={t.chatbot.placeholder}
               value={input}
               onChange={e => setInput(e.target.value)}
               className="flex-1 px-3.5 py-2.5 bg-[#F8F6F0] border border-[#E0D9CB] rounded-2xl text-xs text-[#183021] placeholder-[#8F9E92] focus:outline-none focus:ring-1 focus:ring-[#183324] focus:bg-white"

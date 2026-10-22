@@ -1,4 +1,5 @@
 export type TabType = 'home' | 'shop' | 'rewards' | 'favorites' | 'profile';
+export type Language = 'en' | 'fi' | 'es';
 
 export interface Product {
   id: string;

@@ -25,7 +25,8 @@ export const FavoritesScreen: React.FC = () => {
     addToCart, 
     setSelectedProduct,
     showToast, 
-    triggerConfetti 
+    triggerConfetti,
+    t
   } = useApp();
 
   const [activeTabFilter, setActiveTabFilter] = useState<'all' | 'refills' | 'stock'>('all');
@@ -55,19 +56,19 @@ export const FavoritesScreen: React.FC = () => {
       {/* Title & Vault Status */}
       <div>
         <div className="flex items-center justify-between text-[11px] font-semibold tracking-wider uppercase mb-1">
-          <span className="text-[#847350]">PERSONAL CELLAR</span>
+          <span className="text-[#847350]">{t.favorites.personalCellar}</span>
           <span className="px-2.5 py-0.5 rounded-full bg-[#EAF3ED] border border-[#CFE2D4] text-[#245233] text-[10px] font-bold flex items-center gap-1.5 normal-case">
             <span className="w-1.5 h-1.5 rounded-full bg-[#277E46] animate-pulse" />
-            <span>Vault Synced</span>
+            <span>{t.favorites.vaultSynced}</span>
           </span>
         </div>
 
         <h1 className="font-editorial text-[32px] leading-tight font-medium text-[#14261B]">
-          My Forest Vault <span className="text-xl font-normal text-[#6F8273]">({savedItems.length} saved)</span>
+          {t.favorites.myVault} <span className="text-xl font-normal text-[#6F8273]">({savedItems.length} {t.favorites.savedCount})</span>
         </h1>
 
         <p className="text-xs text-[#5D6F61] mt-1">
-          Carefully preserved botanical cordials, craft tonics, and subarctic infusions.
+          {t.favorites.vaultSub}
         </p>
       </div>
 
@@ -81,7 +82,7 @@ export const FavoritesScreen: React.FC = () => {
               : 'bg-[#EDE7DB]/70 text-[#6B7D70] hover:bg-[#E5DFD1]'
           }`}
         >
-          All Saved ({savedItems.length})
+          {t.favorites.allSaved} ({savedItems.length})
         </button>
 
         <button
@@ -92,7 +93,7 @@ export const FavoritesScreen: React.FC = () => {
               : 'bg-[#EDE7DB]/70 text-[#6B7D70] hover:bg-[#E5DFD1]'
           }`}
         >
-          Auto-Refills (1)
+          {t.favorites.autoRefills} (1)
         </button>
 
         <button
@@ -103,7 +104,7 @@ export const FavoritesScreen: React.FC = () => {
               : 'bg-[#EDE7DB]/70 text-[#6B7D70] hover:bg-[#E5DFD1]'
           }`}
         >
-          Back in Stock (1)
+          {t.favorites.backInStock} (1)
         </button>
       </div>
 

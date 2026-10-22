@@ -4,14 +4,14 @@ import { TabType } from '../types';
 import { Home, Store, Sparkles, Heart, User } from 'lucide-react';
 
 export const BottomNav: React.FC = () => {
-  const { activeTab, setActiveTab, favorites } = useApp();
+  const { activeTab, setActiveTab, favorites, t } = useApp();
 
   const navItems: { id: TabType; label: string; icon: React.FC<{ className?: string }> }[] = [
-    { id: 'home', label: 'Home', icon: Home },
-    { id: 'shop', label: 'Shop', icon: Store },
-    { id: 'rewards', label: 'Rewards', icon: Sparkles },
-    { id: 'favorites', label: 'Favorites', icon: Heart },
-    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'home', label: t.nav.home, icon: Home },
+    { id: 'shop', label: t.nav.shop, icon: Store },
+    { id: 'rewards', label: t.nav.rewards, icon: Sparkles },
+    { id: 'favorites', label: t.nav.favorites, icon: Heart },
+    { id: 'profile', label: t.nav.profile, icon: User },
   ];
 
   return (

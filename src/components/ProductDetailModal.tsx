@@ -31,7 +31,8 @@ export const ProductDetailModal: React.FC = () => {
     cartCount, 
     setIsCartOpen,
     showToast,
-    triggerConfetti 
+    triggerConfetti,
+    t
   } = useApp();
 
   const [quantity, setQuantity] = useState(1);
@@ -206,7 +207,7 @@ export const ProductDetailModal: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[10px] font-bold tracking-widest text-[#A17C3D] uppercase">
-                  WILD HARVEST SERIES
+                  {t.detail.wildHarvestSeries}
                 </span>
                 <span className="text-[#C4BCAB]">•</span>
                 <span className="text-[10px] font-bold tracking-wider text-[#2E683E] uppercase">
@@ -228,7 +229,7 @@ export const ProductDetailModal: React.FC = () => {
                 <span className="text-[#D3CBBF]">•</span>
                 <span className="text-xs text-[#28643C] font-semibold flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Wild Foraged</span>
+                  <span>{t.detail.wildForaged}</span>
                 </span>
               </div>
             </div>
@@ -243,7 +244,7 @@ export const ProductDetailModal: React.FC = () => {
               <div className="bg-[#FAF7EF] rounded-2xl p-3 border border-[#E9E0CE] flex items-start gap-2.5">
                 <Sparkles className="w-4 h-4 text-[#D49B4E] shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <div className="font-bold text-[#183122]">Botanical Tasting Notes</div>
+                  <div className="font-bold text-[#183122]">{t.detail.tastingNotes}</div>
                   <div className="text-[#718576] mt-0.5">{product.notes}</div>
                 </div>
               </div>
@@ -252,7 +253,7 @@ export const ProductDetailModal: React.FC = () => {
             {/* Pack Size / Format Selector */}
             <div className="pt-2">
               <span className="text-xs font-bold text-[#14261B] uppercase tracking-wider block mb-2">
-                Select Format & Pack
+                {t.detail.selectFormat}
               </span>
               <div className="grid grid-cols-3 gap-2">
                 {packOptions.map((opt, idx) => {
@@ -290,15 +291,15 @@ export const ProductDetailModal: React.FC = () => {
             <div className="bg-white rounded-3xl p-4 border border-[#E8E2D5] shadow-soft-sm space-y-3 pt-4">
               <h3 className="font-editorial text-base font-semibold text-[#14261B] flex items-center gap-2">
                 <Wine className="w-4 h-4 text-[#A67C37]" />
-                <span>Sensory & Flavor Profile</span>
+                <span>{t.detail.sensoryProfile}</span>
               </h3>
 
               <div className="space-y-2 text-xs">
                 {[
-                  { label: 'Forest Aromatics', value: flavorProfile.aromatics, max: 5 },
-                  { label: 'Effervescence & Fizz', value: flavorProfile.effervescence, max: 5 },
-                  { label: 'Bitterness / Tannin', value: flavorProfile.bitterness, max: 5 },
-                  { label: 'Sweetness', value: flavorProfile.sweetness, max: 5 },
+                  { label: t.detail.forestAromatics, value: flavorProfile.aromatics, max: 5 },
+                  { label: t.detail.effervescence, value: flavorProfile.effervescence, max: 5 },
+                  { label: t.detail.bitterness, value: flavorProfile.bitterness, max: 5 },
+                  { label: t.detail.sweetness, value: flavorProfile.sweetness, max: 5 },
                 ].map((item, idx) => (
                   <div key={idx} className="space-y-1">
                     <div className="flex justify-between text-[11px] text-[#55695C]">
@@ -320,7 +321,7 @@ export const ProductDetailModal: React.FC = () => {
             <div className="bg-white rounded-3xl p-4 border border-[#E8E2D5] shadow-soft-sm space-y-3">
               <h3 className="font-editorial text-base font-semibold text-[#14261B] flex items-center gap-2">
                 <Leaf className="w-4 h-4 text-[#2E683E]" />
-                <span>Botanical Ingredients</span>
+                <span>{t.detail.ingredientsTitle}</span>
               </h3>
 
               <ul className="space-y-1.5 text-xs text-[#5D6F61]">
@@ -335,19 +336,19 @@ export const ProductDetailModal: React.FC = () => {
               {/* Nutrition Grid */}
               <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[#F0EBE0] text-center">
                 <div className="p-2 rounded-xl bg-[#FAF8F3]">
-                  <div className="text-[10px] text-[#869689]">Energy</div>
+                  <div className="text-[10px] text-[#869689]">{t.detail.energy}</div>
                   <div className="text-xs font-bold text-[#183122]">{nutrition.calories.split(' ')[0]}</div>
                 </div>
                 <div className="p-2 rounded-xl bg-[#FAF8F3]">
-                  <div className="text-[10px] text-[#869689]">Sugars</div>
+                  <div className="text-[10px] text-[#869689]">{t.detail.sugars}</div>
                   <div className="text-xs font-bold text-[#183122]">{nutrition.sugar.split(' ')[0]}</div>
                 </div>
                 <div className="p-2 rounded-xl bg-[#FAF8F3]">
-                  <div className="text-[10px] text-[#869689]">Alcohol</div>
+                  <div className="text-[10px] text-[#869689]">{t.detail.alcohol}</div>
                   <div className="text-xs font-bold text-[#183122]">{nutrition.abv.split(' ')[0]}</div>
                 </div>
                 <div className="p-2 rounded-xl bg-[#FAF8F3]">
-                  <div className="text-[10px] text-[#869689]">Volume</div>
+                  <div className="text-[10px] text-[#869689]">{t.detail.volume}</div>
                   <div className="text-xs font-bold text-[#183122]">{nutrition.volume}</div>
                 </div>
               </div>
@@ -357,7 +358,7 @@ export const ProductDetailModal: React.FC = () => {
             <div className="bg-[#FAF7F0] rounded-3xl p-4 border border-[#E9E1CE] shadow-soft-sm space-y-2">
               <h3 className="font-editorial text-base font-semibold text-[#14261B] flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[#A67C37]" />
-                <span>The Nordic Serve Ritual</span>
+                <span>{t.detail.serveRitualTitle}</span>
               </h3>
               <p className="text-xs text-[#5D6F61] leading-relaxed">
                 {product.servingRitual || 'Serve ice cold (4°C) in a chilled crystal tumbler over hand-cut ice. Garnish with a fresh bruised pine sprig or a sliver of Meyer lemon peel to release aromatic boreal terpenes.'}
@@ -368,9 +369,9 @@ export const ProductDetailModal: React.FC = () => {
             <div className="flex items-center gap-3 p-3 rounded-2xl bg-[#EAF3ED] border border-[#CFE3D5] text-xs text-[#20492E]">
               <Truck className="w-5 h-5 shrink-0 text-[#246138]" />
               <div>
-                <span className="font-bold">Subarctic Chilled Delivery Available</span>
+                <span className="font-bold">{t.detail.chilledDelivery}</span>
                 <p className="text-[11px] text-[#4F735B]">
-                  Dispatched in biodegradable cold packs via Posti Eco across Finland & the Baltics.
+                  {t.detail.chilledDeliverySub}
                 </p>
               </div>
             </div>
@@ -407,7 +408,7 @@ export const ProductDetailModal: React.FC = () => {
             className="flex-1 py-3.5 bg-[#183324] text-[#FAF8F3] rounded-2xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#254632] active:scale-[0.98] transition-all shadow-md"
           >
             <ShoppingBag className="w-4 h-4 text-[#E5A953]" />
-            <span>Add to Forest Box</span>
+            <span>{t.detail.addToBox}</span>
             <span>•</span>
             <span>€{totalPrice}</span>
           </button>

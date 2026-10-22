@@ -24,7 +24,8 @@ export const ShopScreen: React.FC = () => {
     cartTotal, 
     setIsCartOpen,
     setSelectedProduct,
-    showToast 
+    showToast,
+    t
   } = useApp();
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -36,11 +37,11 @@ export const ShopScreen: React.FC = () => {
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
   const categories = [
-    { id: 'all', label: '🍸 All Drinks' },
-    { id: 'tonics', label: '💧 Tonics & Mixers' },
-    { id: 'sparkling', label: '✨ Wild Sparkling' },
-    { id: 'adaptogens', label: '🍄 Adaptogens & Shots' },
-    { id: 'spirits', label: '🍂 Zero-Proof Spirits' },
+    { id: 'all', label: t.shop.allDrinks },
+    { id: 'tonics', label: t.shop.tonicsMixers },
+    { id: 'sparkling', label: t.shop.wildSparkling },
+    { id: 'adaptogens', label: t.shop.adaptogensShots },
+    { id: 'spirits', label: t.shop.zeroProofSpirits },
   ];
 
   const handleVoiceSearch = () => {
@@ -97,7 +98,7 @@ export const ShopScreen: React.FC = () => {
           <Search className="w-4 h-4 text-[#8C9C8F] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search wild infusions"
+            placeholder={t.shop.searchPlaceholder}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-9 py-2.5 bg-white border border-[#E5DFD0] rounded-2xl text-xs text-[#1C3122] placeholder-[#8C9C8F] shadow-soft-sm focus:outline-none focus:ring-1 focus:ring-[#183324]"
@@ -119,7 +120,7 @@ export const ShopScreen: React.FC = () => {
           className="px-3.5 py-2.5 rounded-2xl bg-[#183324] text-[#FAF8F3] text-xs font-semibold flex items-center gap-1.5 shadow-sm hover:bg-[#234330] active:scale-95 transition-all"
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
-          <span>Filters</span>
+          <span>{t.shop.filters}</span>
           <span className="w-4 h-4 rounded-full bg-[#E5A953] text-[#12281C] text-[10px] font-bold flex items-center justify-center">
             {selectedTags.length}
           </span>
@@ -149,9 +150,9 @@ export const ShopScreen: React.FC = () => {
       {/* Product count and Sort Dropdown */}
       <div className="flex items-center justify-between text-xs text-[#6C7E71] pt-1">
         <div>
-          <span className="font-semibold text-[#183122]">{sortedProducts.length} Forest Blends</span>
+          <span className="font-semibold text-[#183122]">{sortedProducts.length} {t.shop.blendsCount}</span>
           <span className="mx-1.5">•</span>
-          <span>Handcrafted in Oulu</span>
+          <span>{t.shop.handcraftedIn}</span>
         </div>
 
         <div className="relative">
@@ -160,10 +161,10 @@ export const ShopScreen: React.FC = () => {
             className="px-3 py-1 bg-white border border-[#E5DFD2] rounded-xl text-xs font-medium text-[#203628] flex items-center gap-1 hover:bg-[#F9F7F1]"
           >
             <span>
-              {sortBy === 'popular' && 'Popular'}
-              {sortBy === 'rating' && 'Top Rated'}
-              {sortBy === 'price-asc' && 'Price: Low-High'}
-              {sortBy === 'price-desc' && 'Price: High-Low'}
+              {sortBy === 'popular' && t.shop.popular}
+              {sortBy === 'rating' && t.shop.topRated}
+              {sortBy === 'price-asc' && t.shop.priceLowHigh}
+              {sortBy === 'price-desc' && t.shop.priceHighLow}
             </span>
             <ChevronDown className="w-3 h-3 text-[#7B8B7E]" />
           </button>
@@ -174,25 +175,25 @@ export const ShopScreen: React.FC = () => {
                 onClick={() => { setSortBy('popular'); setIsSortDropdownOpen(false); }}
                 className="w-full text-left px-3 py-1.5 hover:bg-[#F7F4EB] text-[#1B3123]"
               >
-                Popular
+                {t.shop.popular}
               </button>
               <button
                 onClick={() => { setSortBy('rating'); setIsSortDropdownOpen(false); }}
                 className="w-full text-left px-3 py-1.5 hover:bg-[#F7F4EB] text-[#1B3123]"
               >
-                Top Rated
+                {t.shop.topRated}
               </button>
               <button
                 onClick={() => { setSortBy('price-asc'); setIsSortDropdownOpen(false); }}
                 className="w-full text-left px-3 py-1.5 hover:bg-[#F7F4EB] text-[#1B3123]"
               >
-                Price: Low to High
+                {t.shop.priceLowHigh}
               </button>
               <button
                 onClick={() => { setSortBy('price-desc'); setIsSortDropdownOpen(false); }}
                 className="w-full text-left px-3 py-1.5 hover:bg-[#F7F4EB] text-[#1B3123]"
               >
-                Price: High to Low
+                {t.shop.priceHighLow}
               </button>
             </div>
           )}
@@ -317,7 +318,7 @@ export const ShopScreen: React.FC = () => {
                 </span>
               </div>
               <div>
-                <div className="text-xs font-bold leading-tight">Forest Box</div>
+                <div className="text-xs font-bold leading-tight">{t.cart.title}</div>
                 <div className="text-[11px] text-[#A6C4B0]">
                   {cartCount} ITEMS • €{cartTotal.toFixed(2)}
                 </div>
@@ -329,7 +330,7 @@ export const ShopScreen: React.FC = () => {
               onClick={() => setIsCartOpen(true)}
               className="px-3.5 py-1.5 bg-[#E5A953] text-[#12281C] rounded-full text-xs font-bold flex items-center gap-1 hover:bg-[#F3BA68] active:scale-95 transition-all shadow-sm"
             >
-              <span>View Box</span>
+              <span>{t.shop.viewBox}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

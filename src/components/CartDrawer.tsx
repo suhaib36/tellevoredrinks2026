@@ -14,6 +14,7 @@ export const CartDrawer: React.FC = () => {
     cartCount,
     triggerConfetti,
     showToast,
+    t
   } = useApp();
 
   const [promoCode, setPromoCode] = useState('');
@@ -70,8 +71,8 @@ export const CartDrawer: React.FC = () => {
               {cartCount}
             </div>
             <div>
-              <h2 className="font-editorial text-xl font-medium text-[#14261B]">Your Forest Box</h2>
-              <p className="text-[11px] text-[#78887C] tracking-wide">Freshly sealed cold provisions</p>
+              <h2 className="font-editorial text-xl font-medium text-[#14261B]">{t.cart.title}</h2>
+              <p className="text-[11px] text-[#78887C] tracking-wide">{t.cart.sub}</p>
             </div>
           </div>
           <button
@@ -136,13 +137,13 @@ export const CartDrawer: React.FC = () => {
                   <div className="w-12 h-12 rounded-full bg-[#EAE5D9] flex items-center justify-center text-[#738577] mb-3">
                     <Trash2 className="w-5 h-5 opacity-40" />
                   </div>
-                  <p className="font-editorial text-lg text-[#162B1E]">Your Forest Box is empty</p>
-                  <p className="text-xs text-[#7A8C7E] mt-1 mb-4">Explore our wild-foraged harvests and craft tonics.</p>
+                  <p className="font-editorial text-lg text-[#162B1E]">{t.cart.emptyTitle}</p>
+                  <p className="text-xs text-[#7A8C7E] mt-1 mb-4">{t.cart.emptySub}</p>
                   <button
                     onClick={handleClose}
                     className="px-5 py-2 bg-[#183324] text-white rounded-xl text-xs font-semibold"
                   >
-                    Browse Blends
+                    {t.cart.browseBlends}
                   </button>
                 </div>
               ) : (
@@ -227,27 +228,27 @@ export const CartDrawer: React.FC = () => {
               <div className="p-4 bg-white border-t border-[#ECE5D8] space-y-3">
                 <div className="space-y-1.5 text-xs text-[#637568]">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t.cart.subtotal}</span>
                     <span className="font-semibold text-[#183022]">€{cartTotal.toFixed(2)}</span>
                   </div>
                   {promoDiscount > 0 && (
                     <div className="flex justify-between text-[#357549]">
-                      <span>Voucher Discount</span>
+                      <span>{t.cart.voucherDiscount}</span>
                       <span>-€{promoDiscount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span>Subarctic Chilled Packaging</span>
-                    <span className="text-[#357549] font-medium">Free (Biodegradable)</span>
+                    <span>{t.cart.packaging}</span>
+                    <span className="text-[#357549] font-medium">{t.cart.freeBiodegradable}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Nordic Courier (Posti Eco)</span>
+                    <span>{t.cart.courier}</span>
                     <span className="font-semibold text-[#183022]">
                       {remainingForFreeShipping === 0 ? '€0.00' : '€3.50'}
                     </span>
                   </div>
                   <div className="pt-2 border-t border-[#EBE5D8] flex justify-between text-base font-bold text-[#14261B]">
-                    <span>Total Due</span>
+                    <span>{t.cart.totalDue}</span>
                     <span>€{(finalTotal + (remainingForFreeShipping === 0 ? 0 : 3.5)).toFixed(2)}</span>
                   </div>
                 </div>
@@ -260,11 +261,11 @@ export const CartDrawer: React.FC = () => {
                   {isCheckingOut ? (
                     <span className="flex items-center gap-2">
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Securing Harvest Box...
+                      {t.cart.securing}
                     </span>
                   ) : (
                     <>
-                      <span>Complete Forest Checkout</span>
+                      <span>{t.cart.completeCheckout}</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
@@ -272,7 +273,7 @@ export const CartDrawer: React.FC = () => {
 
                 <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#7C8E80]">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#3E6F4E]" />
-                  <span>100% Wild Nordic Foraging • Zero Carbon Delivery</span>
+                  <span>{t.cart.guarantee}</span>
                 </div>
               </div>
             )}

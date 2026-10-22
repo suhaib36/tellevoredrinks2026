@@ -27,7 +27,8 @@ export const RewardsScreen: React.FC = () => {
     addSeeds, 
     redeemReward, 
     setIsMembershipCardOpen, 
-    showToast 
+    showToast,
+    t
   } = useApp();
 
   const [referralCopied, setReferralCopied] = useState(false);
@@ -46,7 +47,7 @@ export const RewardsScreen: React.FC = () => {
         <div className="flex items-start justify-between mb-4">
           <div>
             <span className="text-[10px] font-bold tracking-widest text-[#E5A953] uppercase block mb-0.5">
-              TELLERVO FOREST CLUB
+              {t.rewards.clubTitle}
             </span>
             <h2 className="font-editorial text-2xl font-medium text-white">
               {user.name}
@@ -54,7 +55,7 @@ export const RewardsScreen: React.FC = () => {
           </div>
           <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-[11px] font-semibold text-[#D4E8DC] flex items-center gap-1">
             <Trees className="w-3.5 h-3.5 text-[#E5A953]" />
-            <span>Taiga Patron</span>
+            <span>{t.rewards.patronBadge}</span>
           </span>
         </div>
 
@@ -62,10 +63,10 @@ export const RewardsScreen: React.FC = () => {
         <div className="flex items-end justify-between mb-4">
           <div>
             <div className="font-editorial text-[38px] leading-none font-medium text-white">
-              {user.seeds} <span className="text-xl font-normal text-[#D4E7DC]">Seeds</span>
+              {user.seeds} <span className="text-xl font-normal text-[#D4E7DC]">{t.rewards.seeds}</span>
             </div>
             <p className="text-xs text-[#9BBBA4] mt-1">
-              Harvest Balance • Level {user.level} of {user.totalLevels}
+              {t.rewards.harvestBalance} • {t.rewards.levelOf}
             </p>
           </div>
 
@@ -74,7 +75,7 @@ export const RewardsScreen: React.FC = () => {
             className="flex flex-col items-center justify-center w-14 h-14 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-[#FAF8F3] transition-all active:scale-95 shadow-sm"
           >
             <QrCode className="w-6 h-6 text-[#E5A953]" />
-            <span className="text-[9px] font-bold tracking-wider mt-0.5">CARD</span>
+            <span className="text-[9px] font-bold tracking-wider mt-0.5">{t.rewards.card}</span>
           </button>
         </div>
 
@@ -83,9 +84,9 @@ export const RewardsScreen: React.FC = () => {
           <div className="flex items-center justify-between text-xs text-[#B2CEBC]">
             <span className="flex items-center gap-1 font-medium">
               <Sparkles className="w-3.5 h-3.5 text-[#E5A953]" />
-              <span>Next: {user.nextTier}</span>
+              <span>{t.rewards.nextTier}</span>
             </span>
-            <span className="text-[#E5A953] font-bold">{user.seedsNeeded} seeds left</span>
+            <span className="text-[#E5A953] font-bold">{user.seedsNeeded} {t.rewards.seedsLeft}</span>
           </div>
           <div className="w-full h-1.5 bg-[#2B4B36] rounded-full overflow-hidden">
             <div className="h-full bg-[#E5A953] rounded-full w-[68%]" />
@@ -95,7 +96,7 @@ export const RewardsScreen: React.FC = () => {
         {/* Perks footer */}
         <div className="pt-2 border-t border-white/10 flex items-center gap-2 text-[11px] text-[#A6C4B0]">
           <Lock className="w-3 h-3 text-[#E5A953]" />
-          <span>Early harvest access • Quarterly bespoke bottle</span>
+          <span>{t.rewards.earlyAccess}</span>
         </div>
       </div>
 
@@ -108,7 +109,7 @@ export const RewardsScreen: React.FC = () => {
           <div className="w-10 h-10 rounded-full bg-[#F4F1E8] flex items-center justify-center mb-1 text-[#223E2C]">
             <Scan className="w-5 h-5" />
           </div>
-          <span className="text-[11px] font-medium tracking-tight">Nordic Scan</span>
+          <span className="text-[11px] font-medium tracking-tight">{t.rewards.nordicScan}</span>
         </button>
 
         <button
@@ -118,7 +119,7 @@ export const RewardsScreen: React.FC = () => {
           <div className="w-10 h-10 rounded-full bg-[#F4F1E8] flex items-center justify-center mb-1 text-[#223E2C]">
             <Sprout className="w-5 h-5" />
           </div>
-          <span className="text-[11px] font-medium tracking-tight">Earn Seeds</span>
+          <span className="text-[11px] font-medium tracking-tight">{t.rewards.earnSeeds}</span>
         </button>
 
         <button
@@ -131,7 +132,7 @@ export const RewardsScreen: React.FC = () => {
           <div className="w-10 h-10 rounded-full bg-[#F4F1E8] flex items-center justify-center mb-1 text-[#223E2C]">
             <Users className="w-5 h-5" />
           </div>
-          <span className="text-[11px] font-medium tracking-tight">Referrals</span>
+          <span className="text-[11px] font-medium tracking-tight">{t.rewards.referrals}</span>
         </button>
 
         <button
@@ -141,14 +142,14 @@ export const RewardsScreen: React.FC = () => {
           <div className="w-10 h-10 rounded-full bg-[#F4F1E8] flex items-center justify-center mb-1 text-[#223E2C]">
             <Ticket className="w-5 h-5" />
           </div>
-          <span className="text-[11px] font-medium tracking-tight">Vouchers</span>
+          <span className="text-[11px] font-medium tracking-tight">{t.rewards.vouchers}</span>
         </button>
       </div>
 
       {/* Available Rewards Section */}
       <div>
         <div className="flex items-baseline justify-between mb-1">
-          <h3 className="font-editorial text-xl font-medium text-[#14261B]">Available Rewards</h3>
+          <h3 className="font-editorial text-xl font-medium text-[#14261B]">{t.rewards.availableRewards}</h3>
           <button 
             onClick={() => showToast('Full botanical reward catalog updated for October', 'info')}
             className="text-xs font-semibold text-[#8C7443] hover:underline"
@@ -156,7 +157,7 @@ export const RewardsScreen: React.FC = () => {
             Catalog
           </button>
         </div>
-        <p className="text-xs text-[#637568] mb-3">Redeem handcrafted botanicals & gear</p>
+        <p className="text-xs text-[#637568] mb-3">{t.rewards.availableSub}</p>
 
         {/* Horizontal Reward Cards */}
         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
