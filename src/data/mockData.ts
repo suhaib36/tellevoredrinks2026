@@ -196,6 +196,259 @@ export const PRODUCTS: Product[] = [
     isSaved: false,
     stockStatus: "in-stock",
   },
+  // Juices
+  {
+    id: "nordic-seabuckthorn-juice",
+    name: "Arctic Seabuckthorn Cold-Pressed Juice",
+    category: "COLD-PRESSED JUICES",
+    badge: "RAW & PURE",
+    badgeType: "organic",
+    price: 4.80,
+    size: "300ml Glass",
+    rating: 4.9,
+    reviewsCount: 112,
+    notes: "Wild Seabuckthorn • Lapland Cranberry • High Vitamin C",
+    description: "Subarctic orange seabuckthorn berries bursting with natural Omega-7 and pure Vitamin C, cold-pressed with wild Lapland cranberries.",
+    imageUrl: "https://images.unsplash.com/photo-1622597467836-f3285f2131b7?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Wild Coastal Seabuckthorn Berries (Hippophae rhamnoides)",
+      "Lapland Bog Cranberries",
+      "Raw Birch Water",
+      "Organic Golden Beet Extract"
+    ],
+    flavorProfile: {
+      bitterness: 2,
+      sweetness: 3,
+      aromatics: 4,
+      effervescence: 1
+    }
+  },
+  {
+    id: "wild-lingon-birch-juice",
+    name: "Wild Lingonberry & Raw Birch Juice",
+    category: "COLD-PRESSED JUICES",
+    badge: "NEW HARVEST",
+    badgeType: "new-harvest",
+    price: 4.20,
+    size: "330ml Glass",
+    rating: 4.8,
+    reviewsCount: 76,
+    notes: "Tart Mountain Lingonberries • Sweet Birch Sap",
+    description: "Hand-foraged red lingonberries cold-milled with crystal-clear raw silver birch sap collected during the spring melt in Kainuu.",
+    imageUrl: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Pure Cold-Pressed Wild Lingonberries",
+      "Raw Tap Spring Birch Sap (Betula pendula)",
+      "Pressed Subarctic Red Currant"
+    ],
+    flavorProfile: {
+      bitterness: 3,
+      sweetness: 2,
+      aromatics: 4,
+      effervescence: 1
+    }
+  },
+  {
+    id: "midnight-bilberry-juice",
+    name: "Midnight Sun Wild Bilberry Juice",
+    category: "COLD-PRESSED JUICES",
+    badge: "ANTIOXIDANT",
+    badgeType: "bestseller",
+    price: 4.90,
+    size: "300ml Glass",
+    rating: 5.0,
+    reviewsCount: 189,
+    notes: "Wild Arctic Bilberries • Pomegranate • Zero Sugar",
+    description: "Deep midnight violet juice made from wild arctic bilberries holding 4x more anthocyanins than cultivated blueberries.",
+    imageUrl: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Wild Arctic Bilberries (Vaccinium myrtillus)",
+      "Pressed Tart Cherry",
+      "Crystalline Nordic Spring Water"
+    ],
+    flavorProfile: {
+      bitterness: 1,
+      sweetness: 3,
+      aromatics: 5,
+      effervescence: 1
+    }
+  },
+  // Smoothies
+  {
+    id: "boreal-bilberry-oat-smoothie",
+    name: "Boreal Bilberry & Velvety Oat Smoothie",
+    category: "BOREAL SMOOTHIES",
+    badge: "PROBIOTIC",
+    badgeType: "organic",
+    price: 5.40,
+    size: "350ml Bottle",
+    rating: 4.9,
+    reviewsCount: 145,
+    notes: "Wild Bilberry • Finnish Gluten-Free Oats • Flaxseed",
+    description: "Thick, nourishing subarctic smoothie blended with wild hand-picked bilberries, gluten-free Finnish oat milk, and cold-pressed flax oil.",
+    imageUrl: "https://images.unsplash.com/photo-1553530979-7ee52a2670c4?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Whole Wild Boreal Bilberries",
+      "Artisan Finnish Rolled Oat Cream",
+      "Cold-Pressed Flaxseed Oil",
+      "Touch of Raw Wildflower Honey"
+    ],
+    flavorProfile: {
+      bitterness: 1,
+      sweetness: 3,
+      aromatics: 4,
+      effervescence: 1
+    }
+  },
+  {
+    id: "cloudberry-golden-smoothie",
+    name: "Golden Cloudberry & Oat-Kefir Smoothie",
+    category: "BOREAL SMOOTHIES",
+    badge: "EXCLUSIVE",
+    badgeType: "exclusive",
+    price: 5.80,
+    size: "350ml Bottle",
+    rating: 4.9,
+    reviewsCount: 88,
+    notes: "Amber Cloudberry • Cultured Boreal Kefir • Cardamom",
+    description: "Luxurious creamy smoothie highlighting rare amber cloudberries from Inari bogs swirled with gut-friendly artisan oat kefir.",
+    imageUrl: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Inari Wild Amber Cloudberries (Rubus chamaemorus)",
+      "Probiotic Oat Milk Kefir Cultures",
+      "Ground Green Cardamom",
+      "Golden Sea Buckthorn Puree"
+    ],
+    flavorProfile: {
+      bitterness: 1,
+      sweetness: 4,
+      aromatics: 5,
+      effervescence: 1
+    }
+  },
+  {
+    id: "spruce-greens-chlorella-smoothie",
+    name: "Taiga Forest Greens & Spruce Smoothie",
+    category: "BOREAL SMOOTHIES",
+    badge: "SUPERFOOD",
+    badgeType: "adaptogenic",
+    price: 5.20,
+    size: "350ml Bottle",
+    rating: 4.8,
+    reviewsCount: 64,
+    notes: "Tender Spruce Tips • Stinging Nettle • Green Apple",
+    description: "Vibrant emerald smoothie packed with young spruce tips, wild stinging nettle, green apple, and clean Finnish chlorella.",
+    imageUrl: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Spring Spruce Needle Tips",
+      "Wild Foraged Stinging Nettle",
+      "Green Granny Smith Apple",
+      "Clean Subarctic Chlorella Microalgae"
+    ],
+    flavorProfile: {
+      bitterness: 2,
+      sweetness: 2,
+      aromatics: 5,
+      effervescence: 1
+    }
+  },
+  // Detox Drinks
+  {
+    id: "chaga-dandelion-detox",
+    name: "Arctic Chaga & Dandelion Root Detox",
+    category: "HERBAL DETOX",
+    badge: "LIVER FLUSH",
+    badgeType: "adaptogenic",
+    price: 4.60,
+    size: "300ml Glass",
+    rating: 4.9,
+    reviewsCount: 93,
+    notes: "Wild Tree Chaga • Roasted Dandelion • Burdock Root",
+    description: "Slow-brewed hepatic cleanse tonic blending wild silver birch chaga with roasted Nordic dandelion roots and detoxifying burdock.",
+    imageUrl: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Wild Harvested Lapland Chaga (Inonotus obliquus)",
+      "Fire-Roasted Dandelion Root",
+      "Wild Burdock Extract",
+      "Purified Nordic Glacier Water"
+    ],
+    flavorProfile: {
+      bitterness: 4,
+      sweetness: 1,
+      aromatics: 4,
+      effervescence: 1
+    }
+  },
+  {
+    id: "birch-nettle-cleansing-tonic",
+    name: "Raw Birch Sap & Wild Nettle Cleanse",
+    category: "HERBAL DETOX",
+    badge: "PURIFYING",
+    badgeType: "organic",
+    price: 4.40,
+    size: "300ml Glass",
+    rating: 4.8,
+    reviewsCount: 71,
+    notes: "Spring Birch Sap • Stinging Nettle • Lemon Thyme",
+    description: "Traditional Finnish springtime cleansing drink combining mineral-rich raw birch sap with wild spring stinging nettle and refreshing lemon thyme.",
+    imageUrl: "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Fresh Tapped Raw Silver Birch Sap",
+      "Subarctic Wild Stinging Nettle Leaves",
+      "Organic Lemon Thyme Herb",
+      "Zero Sugar Mineral Electrolytes"
+    ],
+    flavorProfile: {
+      bitterness: 2,
+      sweetness: 2,
+      aromatics: 4,
+      effervescence: 2
+    }
+  },
+  {
+    id: "pine-needle-ginger-flush",
+    name: "Pine Needle & Arctic Ginger Botanical Flush",
+    category: "HERBAL DETOX",
+    badge: "IMMUNITY",
+    badgeType: "bestseller",
+    price: 4.70,
+    size: "300ml Glass",
+    rating: 5.0,
+    reviewsCount: 126,
+    notes: "Pinene Terpenes • Fresh Ginger Root • Turmeric",
+    description: "Warming detox blend rich in respiratory pinene terpenes, freshly crushed ginger, and golden turmeric root in volcanic spring water.",
+    imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80",
+    isSaved: false,
+    stockStatus: "in-stock",
+    ingredients: [
+      "Steam-Distilled Scots Pine Needles",
+      "Cold-Pressed Fresh Ginger Root",
+      "Organic Turmeric Rhizome Extract",
+      "Pure Finnish Spring Water"
+    ],
+    flavorProfile: {
+      bitterness: 2,
+      sweetness: 2,
+      aromatics: 5,
+      effervescence: 2
+    }
+  },
   // Favorites Vault items
   {
     id: "arctic-juniper-tonic",

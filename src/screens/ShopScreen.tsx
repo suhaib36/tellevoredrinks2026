@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { Product } from '../types';
 import { 
@@ -9,7 +9,8 @@ import {
   Plus, 
   ShoppingBag, 
   ArrowRight,
-  ChevronDown
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
 import { FilterDrawer } from '../components/FilterDrawer';
 
@@ -38,11 +39,26 @@ export const ShopScreen: React.FC = () => {
 
   const categories = [
     { id: 'all', label: t.shop.allDrinks },
+    { id: 'juices', label: t.shop.juices },
+    { id: 'smoothies', label: t.shop.smoothies },
+    { id: 'detox', label: t.shop.detoxDrinks },
     { id: 'tonics', label: t.shop.tonicsMixers },
     { id: 'sparkling', label: t.shop.wildSparkling },
-    { id: 'adaptogens', label: t.shop.adaptogensShots },
     { id: 'spirits', label: t.shop.zeroProofSpirits },
   ];
+
+  // Dynamic counts for each category
+  const categoryCounts = useMemo(() => {
+    return {
+      all: products.length,
+      juices: products.filter(p => p.category.includes('JUICE') || p.name.toLowerCase().includes('juice')).length,
+      smoothies: products.filter(p => p.category.includes('SMOOTHIE') || p.name.toLowerCase().includes('smoothie')).length,
+      detox: products.filter(p => p.category.includes('DETOX') || p.category.includes('ELIXIR') || p.name.toLowerCase().includes('detox') || p.name.toLowerCase().includes('cleanse') || p.name.toLowerCase().includes('flush')).length,
+      tonics: products.filter(p => p.category.includes('TONIC') || p.name.toLowerCase().includes('tonic')).length,
+      sparkling: products.filter(p => p.category.includes('SPARKLING') || p.category.includes('SPRITZ') || p.category.includes('Soda') || p.name.toLowerCase().includes('sparkler') || p.name.toLowerCase().includes('soda') || p.name.toLowerCase().includes('spritz')).length,
+      spirits: products.filter(p => p.category.includes('SPIRIT') || p.category.includes('APERITIF')).length,
+    };
+  }, [products]);
 
   const handleVoiceSearch = () => {
     setIsListening(true);
@@ -65,15 +81,21 @@ export const ShopScreen: React.FC = () => {
       if (!match) return false;
     }
 
-    // Category
+    // Category Filter Bar logic
+    if (activeCategory === 'juices') {
+      return product.category.includes('JUICE') || product.name.toLowerCase().includes('juice');
+    }
+    if (activeCategory === 'smoothies') {
+      return product.category.includes('SMOOTHIE') || product.name.toLowerCase().includes('smoothie');
+    }
+    if (activeCategory === 'detox') {
+      return product.category.includes('DETOX') || product.category.includes('ELIXIR') || product.name.toLowerCase().includes('detox') || product.name.toLowerCase().includes('cleanse') || product.name.toLowerCase().includes('flush') || product.badge?.toLowerCase().includes('detox') || product.badge?.toLowerCase().includes('purifying') || product.badge?.toLowerCase().includes('liver');
+    }
     if (activeCategory === 'tonics') {
       return product.category.includes('TONIC') || product.name.includes('Tonic');
     }
     if (activeCategory === 'sparkling') {
-      return product.category.includes('SPARKLING') || product.category.includes('Soda');
-    }
-    if (activeCategory === 'adaptogens') {
-      return product.category.includes('ADAPTOGEN') || product.category.includes('ELIXIR');
+      return product.category.includes('SPARKLING') || product.category.includes('Soda') || product.category.includes('SPRITZ') || product.name.includes('Sparkler');
     }
     if (activeCategory === 'spirits') {
       return product.category.includes('SPIRIT') || product.category.includes('APERITIF');
@@ -127,24 +149,36 @@ export const ShopScreen: React.FC = () => {
         </button>
       </div>
 
-      {/* Category Pills */}
-      <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
-        {categories.map(cat => {
-          const isActive = activeCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                isActive
-                  ? 'bg-[#183324] text-white shadow-sm'
-                  : 'bg-white border border-[#E5DFD2] text-[#4F6355] hover:bg-[#F7F4EB]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          );
-        })}
+      {/* Category Filter Bar */}
+      <div className="relative -mx-4 px-4 py-0.5">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar py-1 scroll-smooth">
+          {categories.map(cat => {
+            const isActive = activeCategory === cat.id;
+            const count = categoryCounts[cat.id as keyof typeof categoryCounts] || 0;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`group flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition-all duration-200 active:scale-95 ${
+                  isActive
+                    ? 'bg-[#183324] text-[#FAF8F3] shadow-md shadow-[#183324]/20 ring-1 ring-[#183324]'
+                    : 'bg-white border border-[#E5DFD2] text-[#4F6355] hover:bg-[#F7F4EB] hover:text-[#183324] shadow-soft-sm'
+                }`}
+              >
+                <span>{cat.label}</span>
+                <span
+                  className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full transition-colors ${
+                    isActive
+                      ? 'bg-[#E5A953] text-[#14261B] font-bold'
+                      : 'bg-[#F2ECE1] text-[#78887C] group-hover:bg-[#EAE4D7]'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Product count and Sort Dropdown */}
@@ -199,6 +233,30 @@ export const ShopScreen: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Empty State when no products match filters */}
+      {sortedProducts.length === 0 && (
+        <div className="bg-white rounded-3xl p-8 border border-[#EAE4D7] text-center space-y-3 my-4 shadow-soft-sm">
+          <div className="w-12 h-12 rounded-2xl bg-[#F6F3EB] flex items-center justify-center text-2xl mx-auto">
+            🍃
+          </div>
+          <h3 className="font-editorial text-lg font-semibold text-[#183122]">
+            No botanical blends found
+          </h3>
+          <p className="text-xs text-[#718274] max-w-xs mx-auto">
+            No drinks matching this category or search filter. Try clearing filters or exploring other categories.
+          </p>
+          <button
+            onClick={() => {
+              setActiveCategory('all');
+              setSearchQuery('');
+            }}
+            className="px-4 py-2 bg-[#183324] text-white rounded-xl text-xs font-semibold hover:bg-[#234330] active:scale-95 transition-all shadow-xs"
+          >
+            Show All Drinks
+          </button>
+        </div>
+      )}
 
       {/* 2-Column Product Grid */}
       <div className="grid grid-cols-2 gap-3">
