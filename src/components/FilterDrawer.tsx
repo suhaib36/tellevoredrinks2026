@@ -6,6 +6,8 @@ interface FilterDrawerProps {
   onClose: () => void;
   selectedTags: string[];
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  activeCategory?: string;
+  setActiveCategory?: (category: string) => void;
 }
 
 export const FilterDrawer: React.FC<FilterDrawerProps> = ({
@@ -13,8 +15,20 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
   onClose,
   selectedTags,
   setSelectedTags,
+  activeCategory = 'all',
+  setActiveCategory,
 }) => {
   if (!isOpen) return null;
+
+  const drinkCategories = [
+    { id: 'all', label: '🍸 All Drinks' },
+    { id: 'juices', label: '🧃 Juices' },
+    { id: 'smoothies', label: '🥤 Smoothies' },
+    { id: 'detox', label: '🌿 Detox Drinks' },
+    { id: 'tonics', label: '💧 Tonics & Mixers' },
+    { id: 'sparkling', label: '✨ Wild Sparkling' },
+    { id: 'spirits', label: '🍂 Zero-Proof Spirits' },
+  ];
 
   const filterCategories = [
     {
@@ -39,6 +53,9 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
 
   const clearAll = () => {
     setSelectedTags([]);
+    if (setActiveCategory) {
+      setActiveCategory('all');
+    }
   };
 
   return (
@@ -61,6 +78,34 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {/* Drink Category Selection */}
+          {setActiveCategory && (
+            <div>
+              <h4 className="text-xs font-bold text-[#14261B] uppercase tracking-wider mb-2.5">
+                Drink Category
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {drinkCategories.map(cat => {
+                  const isActive = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategory(cat.id)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all flex items-center gap-1.5 ${
+                        isActive
+                          ? 'bg-[#183324] text-white border-[#183324] shadow-sm'
+                          : 'bg-white text-[#293F31] border-[#E2DBD0] hover:border-[#C4B7A4]'
+                      }`}
+                    >
+                      {isActive && <Check className="w-3 h-3 text-[#E5A953]" />}
+                      <span>{cat.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {filterCategories.map(cat => (
             <div key={cat.title}>
               <h4 className="text-xs font-bold text-[#14261B] uppercase tracking-wider mb-2.5">

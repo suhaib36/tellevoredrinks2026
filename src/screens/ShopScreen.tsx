@@ -33,7 +33,7 @@ export const ShopScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>(['Organic', 'Zero-Proof 0.0%']);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'popular' | 'price-asc' | 'price-desc' | 'rating'>('popular');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
@@ -101,6 +101,27 @@ export const ShopScreen: React.FC = () => {
       return product.category.includes('SPIRIT') || product.category.includes('APERITIF');
     }
 
+    // Filter Drawer selected tags logic
+    if (selectedTags.length > 0) {
+      const matchTags = selectedTags.every(tag => {
+        const tLower = tag.toLowerCase();
+        if (tLower === 'organic') return product.badge?.toLowerCase().includes('organic') || product.description?.toLowerCase().includes('organic');
+        if (tLower === 'zero sugar') return product.description?.toLowerCase().includes('zero refined') || product.notes?.toLowerCase().includes('zero sugar') || product.description?.toLowerCase().includes('zero sugar');
+        if (tLower === 'adaptogenic') return product.badgeType === 'adaptogenic' || product.category.toLowerCase().includes('adaptogen');
+        if (tLower.includes('zero-proof') || tLower.includes('0.0%')) return product.badgeType === 'zero-proof' || product.category.toLowerCase().includes('zero-proof') || product.badge?.includes('0.0%');
+        if (tLower === 'wild foraged') return product.badge?.toLowerCase().includes('wild') || product.description?.toLowerCase().includes('wild') || product.name.toLowerCase().includes('wild');
+        if (tLower.includes('can')) return product.size?.toLowerCase().includes('can');
+        if (tLower.includes('glass')) return product.size?.toLowerCase().includes('glass');
+        if (tLower.includes('bottle')) return product.size?.toLowerCase().includes('bottle');
+        if (tLower.includes('flight') || tLower.includes('pack')) return product.size?.toLowerCase().includes('flight') || product.size?.toLowerCase().includes('pack');
+        if (tLower.includes('lapland')) return product.description?.toLowerCase().includes('lapland') || product.notes?.toLowerCase().includes('lapland') || product.harvestLocation?.toLowerCase().includes('lapland');
+        if (tLower.includes('oulu')) return product.description?.toLowerCase().includes('oulu') || product.harvestLocation?.toLowerCase().includes('oulu');
+        if (tLower.includes('kainuu')) return product.description?.toLowerCase().includes('kainuu') || product.harvestLocation?.toLowerCase().includes('kainuu');
+        return true;
+      });
+      if (!matchTags) return false;
+    }
+
     return true;
   });
 
@@ -143,11 +164,41 @@ export const ShopScreen: React.FC = () => {
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
           <span>{t.shop.filters}</span>
-          <span className="w-4 h-4 rounded-full bg-[#E5A953] text-[#12281C] text-[10px] font-bold flex items-center justify-center">
-            {selectedTags.length}
-          </span>
+          {selectedTags.length > 0 && (
+            <span className="w-4 h-4 rounded-full bg-[#E5A953] text-[#12281C] text-[10px] font-bold flex items-center justify-center">
+              {selectedTags.length}
+            </span>
+          )}
         </button>
       </div>
+
+      {/* Active Filter Chips */}
+      {selectedTags.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+          <span className="text-[10px] font-bold text-[#7E8F82] uppercase tracking-wider">Filters:</span>
+          {selectedTags.map(tag => (
+            <span
+              key={tag}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#EAE5D9] text-[#183324] text-[11px] font-medium border border-[#DCD5C6]"
+            >
+              <span>{tag}</span>
+              <button
+                onClick={() => setSelectedTags(prev => prev.filter(t => t !== tag))}
+                aria-label={`Remove ${tag}`}
+                className="hover:text-red-700 font-bold ml-0.5 text-xs leading-none"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+          <button
+            onClick={() => setSelectedTags([])}
+            className="text-[10px] text-[#8C7443] font-semibold underline hover:text-[#5F4E2B] ml-1"
+          >
+            Reset All
+          </button>
+        </div>
+      )}
 
       {/* Category Filter Bar */}
       <div className="relative -mx-4 px-4 py-0.5">
@@ -180,6 +231,32 @@ export const ShopScreen: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* Category Micro-Banner for Context */}
+      {activeCategory !== 'all' && (
+        <div className="bg-[#FAF7EF] rounded-2xl p-3 border border-[#E9E1CE] flex items-center justify-between text-xs animate-in fade-in duration-200">
+          <div className="flex items-center gap-2.5 min-w-0 pr-2">
+            <div className="w-8 h-8 rounded-xl bg-[#183324] text-[#E5A953] flex items-center justify-center shrink-0 shadow-xs">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-bold text-[#183122] flex items-center gap-1.5 truncate">
+                <span>{categories.find(c => c.id === activeCategory)?.label}</span>
+                <span className="text-[10px] font-semibold text-[#869689] uppercase">• {sortedProducts.length} Blends</span>
+              </div>
+              <p className="text-[11px] text-[#637568] truncate">
+                {t.shop.categoryDescriptions?.[activeCategory as keyof typeof t.shop.categoryDescriptions] || ''}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setActiveCategory('all')}
+            className="text-[10px] font-bold text-[#8C7443] hover:underline uppercase shrink-0 px-2 py-1 rounded-lg bg-white border border-[#E8DFC8] active:scale-95 transition-all shadow-2xs"
+          >
+            Clear
+          </button>
+        </div>
+      )}
 
       {/* Product count and Sort Dropdown */}
       <div className="flex items-center justify-between text-xs text-[#6C7E71] pt-1">
@@ -401,6 +478,8 @@ export const ShopScreen: React.FC = () => {
         onClose={() => setIsFilterOpen(false)}
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
       />
     </div>
   );
